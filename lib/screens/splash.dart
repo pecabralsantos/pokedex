@@ -15,15 +15,15 @@ class _SplashState extends State<Splash> {
     return Stack(
       children: [
         SplashScreen(
-          seconds: 5,
+          seconds: 3,
           loaderColor: Colors.transparent,
           navigateAfterSeconds: Dashboard(),
         ),
         Container(
           child: Image.asset(
-            'images/pokeball_splash.gif',
-            width: double.infinity,
-            height: double.infinity,
+            'images/splash_pokeball.gif',
+            width: double.maxFinite,
+            height: double.maxFinite,
             fit: BoxFit.cover,
           ),
         ),
