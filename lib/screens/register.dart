@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/forms.dart';
+import 'package:pokedex/controller/forms_controller.dart';
 import 'package:pokedex/database/dao/user_dao.dart';
+import 'package:pokedex/models/user_model.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final UserDAO _dao = UserDAO();
+  final _formsController = FormsController();
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -60,11 +64,13 @@ class _RegisterState extends State<Register> {
                         controller: _nameController,
                         keyboardType: TextInputType.name,
                         labelText: 'Nome',
+                        onChanged: _formsController.setName,
                       ),
                       Forms().textFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         labelText: 'E-mail',
+                        onChanged: _formsController.setEmail,
                       ),
                     ],
                   ),
@@ -76,27 +82,52 @@ class _RegisterState extends State<Register> {
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
                         labelText: 'Telefone',
+                        onChanged: _formsController.setPhone,
                       ),
                       Forms().textFormField(
                         controller: _passwordController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         labelText: 'Senha',
                         obscureText: true,
+                        onChanged: _formsController.setPassword,
                       ),
                     ],
                   ),
                   SizedBox(height: 32),
                   SizedBox(
                     width: 150,
-                    child: ElevatedButton(
-                      child: Text(
-                        'CADASTRAR',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: () {},
+                    child: Observer(
+                      builder: (_) {
+                        return ElevatedButton(
+                          child: Text(
+                            'CADASTRAR',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: _formsController.registerIsValid
+                              ? () {
+                                  final String name = _nameController.text;
+                                  final String email = _emailController.text;
+                                  final int phone =
+                                      int.tryParse(_phoneController.text);
+                                  final String password =
+                                      _passwordController.text;
+
+                                  final User newUser = User(
+                                    name: name,
+                                    email: email,
+                                    phone: phone,
+                                    password: password,
+                                  );
+                                  _dao.save(newUser).then(
+                                        (value) => Navigator.pop(context),
+                                      );
+                                }
+                              : null,
+                        );
+                      },
                     ),
                   ),
                 ],
