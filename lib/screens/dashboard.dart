@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pokedex/screens/login.dart';
+import 'package:pokedex/screens/register.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -19,9 +21,12 @@ class Dashboard extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 50),
             alignment: AlignmentDirectional.topCenter,
-            child: Image.asset(
-              'images/pokedex_logo.png',
-              width: 250,
+            child: Hero(
+              tag: 'logo',
+              child: Image.asset(
+                'images/pokedex_logo.png',
+                width: 250,
+              ),
             ),
           ),
           Center(
@@ -31,26 +36,36 @@ class Dashboard extends StatelessWidget {
                 SizedBox(
                   width: 150,
                   child: ElevatedButton(
-                      child: Text(
-                        'CADASTRO',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    child: Text(
+                      'CADASTRO',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      onPressed: () {}),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Register(),
+                      ));
+                    },
+                  ),
                 ),
                 SizedBox(
                   width: 150,
                   child: ElevatedButton(
-                      child: Text(
-                        'LOGIN',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    child: Text(
+                      'LOGIN',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      onPressed: () {}),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Login(),
+                      ));
+                    },
+                  ),
                 ),
               ],
             ),
@@ -60,3 +75,5 @@ class Dashboard extends StatelessWidget {
     );
   }
 }
+
+// Color.fromRGBO(44, 45, 154, 1)
