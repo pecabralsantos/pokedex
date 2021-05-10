@@ -4,7 +4,7 @@ import 'package:pokedex/components/dialogs.dart';
 import 'package:pokedex/components/forms.dart';
 import 'package:pokedex/controller/forms_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
-import 'package:pokedex/screens/menu.dart';
+import 'package:pokedex/screens/main_menu.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -111,7 +111,7 @@ class _LoginState extends State<Login> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => Menu(
+                                            builder: (context) => MainMenu(
                                                 userLoggedId: userLogged.id),
                                           ),
                                         );
