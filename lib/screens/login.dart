@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:pokedex/components/dialogs.dart';
 import 'package:pokedex/components/forms.dart';
 import 'package:pokedex/controller/forms_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
-import 'package:pokedex/database/dao/user_dao.dart';
 import 'package:pokedex/screens/menu.dart';
 
 class Login extends StatefulWidget {
@@ -106,6 +106,7 @@ class _LoginState extends State<Login> {
                                                       _passwordController.text,
                                               orElse: () => null);
                                       if (userLogged == null) {
+                                        Dialogs().errorLogin(context);
                                       } else {
                                         Navigator.push(
                                           context,
