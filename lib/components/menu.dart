@@ -11,8 +11,8 @@ class Menu {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 90,
-            height: 90,
+            width: 95,
+            height: 95,
             padding: EdgeInsets.all(8),
             margin: EdgeInsets.only(bottom: 4),
             decoration: BoxDecoration(

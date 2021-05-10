@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/components/toolbar.dart';
+import 'package:pokedex/components/wallpaper.dart';
 
 class Pokemons extends StatefulWidget {
-  const Pokemons({Key key}) : super(key: key);
-
   @override
   _PokemonsState createState() => _PokemonsState();
 }
@@ -11,7 +11,12 @@ class _PokemonsState extends State<Pokemons> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('POKÉDEX')),
+      appBar: Toolbar().appBar(true),
+      body: Stack(
+        children: [
+          Wallpaper().background(),
+        ],
+      ),
     );
   }
 }

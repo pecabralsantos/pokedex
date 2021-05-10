@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/components/menu.dart';
+import 'package:pokedex/components/toolbar.dart';
+import 'package:pokedex/components/wallpaper.dart';
 
 class MainMenu extends StatelessWidget {
   final int userLoggedId;
@@ -9,25 +11,10 @@ class MainMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Color.fromRGBO(28, 33, 74, 0.8),
-        centerTitle: true,
-        title: Image.asset(
-          'images/ic_pokeball.png',
-          width: 35,
-        ),
-      ),
+      appBar: Toolbar().appBar(false),
       body: Stack(
         children: [
-          Container(
-            child: Image.asset(
-              'images/app_background.jpg',
-              width: double.maxFinite,
-              height: double.maxFinite,
-              fit: BoxFit.fill,
-            ),
-          ),
+          Wallpaper().background(),
           Container(
             child: Center(
               child: SingleChildScrollView(
@@ -41,14 +28,14 @@ class MainMenu extends StatelessWidget {
                       'POKÉDEX',
                       1,
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: 32),
                     Menu().options(
                       context,
                       Image.asset('images/ic_favorite_pokemon.png'),
                       'POKEMONS\nFAVORITOS',
                       2,
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: 32),
                     Menu().options(
                       context,
                       Image.asset('images/ic_profile_master.png'),
@@ -56,7 +43,7 @@ class MainMenu extends StatelessWidget {
                       3,
                       userLoggedId,
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: 32),
                     Menu().options(
                       context,
                       Image.asset('images/ic_logout.png'),

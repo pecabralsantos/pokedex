@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/components/toolbar.dart';
+import 'package:pokedex/components/wallpaper.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key key, int userLoggedId}) : super(key: key);
+  final int userLoggedId;
+
+  Profile({Key key, @required this.userLoggedId}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileState createState() => _ProfileState(this.userLoggedId);
 }
 
 class _ProfileState extends State<Profile> {
+  final int userLoggedId;
+
+  _ProfileState(this.userLoggedId);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('PERFIL')),
+      appBar: Toolbar().appBar(true),
+      body: Stack(
+        children: [
+          Wallpaper().background(),
+          Center(
+            child: Text('PERFIL'),
+          ),
+        ],
+      ),
     );
   }
 }
