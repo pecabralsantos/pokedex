@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pokedex/models/pokemon_model.dart';
-import 'package:pokedex/models/user_model.dart';
 
 part 'service_controller.g.dart';
 
@@ -11,20 +10,19 @@ abstract class _ServiceControllerBase with Store {
   final _pokemonModel = PokemonModel(Dio());
 
   @observable
-  Pokemon queryPokemon;
+  List<PokemonDetails> pokemons;
 
   @observable
-  PokemonDetails pokemonDetails;
+  List<Future<PokemonDetails>> listPokemonsDetails = [];
 
   @action
   Future<void> getQueryPokemon() async {
-    final response = await _pokemonModel.getQueryPokemon();
-    queryPokemon = response;
-  }
-
-  @action
-  Future<void> getPokemonDetail(String name) async {
-    final response = await _pokemonModel.getPokemonDetail(name);
-    pokemonDetails = response;
+    final response = await _pokemonModel.getQueryPokemon(20, 0).then((v) {
+      v.results.forEach((e) {
+        listPokemonsDetails.add(_pokemonModel.getPokemonDetail(e.url));
+      });
+      return Future.wait(listPokemonsDetails);
+    });
+    pokemons = response;
   }
 }

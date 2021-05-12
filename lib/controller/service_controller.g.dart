@@ -9,34 +9,34 @@ part of 'service_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ServiceController on _ServiceControllerBase, Store {
-  final _$queryPokemonAtom = Atom(name: '_ServiceControllerBase.queryPokemon');
+  final _$pokemonsAtom = Atom(name: '_ServiceControllerBase.pokemons');
 
   @override
-  Pokemon get queryPokemon {
-    _$queryPokemonAtom.reportRead();
-    return super.queryPokemon;
+  List<PokemonDetails> get pokemons {
+    _$pokemonsAtom.reportRead();
+    return super.pokemons;
   }
 
   @override
-  set queryPokemon(Pokemon value) {
-    _$queryPokemonAtom.reportWrite(value, super.queryPokemon, () {
-      super.queryPokemon = value;
+  set pokemons(List<PokemonDetails> value) {
+    _$pokemonsAtom.reportWrite(value, super.pokemons, () {
+      super.pokemons = value;
     });
   }
 
-  final _$pokemonDetailsAtom =
-      Atom(name: '_ServiceControllerBase.pokemonDetails');
+  final _$listPokemonsDetailsAtom =
+      Atom(name: '_ServiceControllerBase.listPokemonsDetails');
 
   @override
-  PokemonDetails get pokemonDetails {
-    _$pokemonDetailsAtom.reportRead();
-    return super.pokemonDetails;
+  List<Future<PokemonDetails>> get listPokemonsDetails {
+    _$listPokemonsDetailsAtom.reportRead();
+    return super.listPokemonsDetails;
   }
 
   @override
-  set pokemonDetails(PokemonDetails value) {
-    _$pokemonDetailsAtom.reportWrite(value, super.pokemonDetails, () {
-      super.pokemonDetails = value;
+  set listPokemonsDetails(List<Future<PokemonDetails>> value) {
+    _$listPokemonsDetailsAtom.reportWrite(value, super.listPokemonsDetails, () {
+      super.listPokemonsDetails = value;
     });
   }
 
@@ -48,20 +48,11 @@ mixin _$ServiceController on _ServiceControllerBase, Store {
     return _$getQueryPokemonAsyncAction.run(() => super.getQueryPokemon());
   }
 
-  final _$getPokemonDetailAsyncAction =
-      AsyncAction('_ServiceControllerBase.getPokemonDetail');
-
-  @override
-  Future<void> getPokemonDetail(String name) {
-    return _$getPokemonDetailAsyncAction
-        .run(() => super.getPokemonDetail(name));
-  }
-
   @override
   String toString() {
     return '''
-queryPokemon: ${queryPokemon},
-pokemonDetails: ${pokemonDetails}
+pokemons: ${pokemons},
+listPokemonsDetails: ${listPokemonsDetails}
     ''';
   }
 }
