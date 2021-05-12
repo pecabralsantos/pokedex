@@ -1,5 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
-import 'package:pokedex/database/dao/user_dao.dart';
+import 'package:pokedex/models/pokemon_model.dart';
 import 'package:pokedex/models/user_model.dart';
 
 part 'service_controller.g.dart';
@@ -7,22 +8,23 @@ part 'service_controller.g.dart';
 class ServiceController = _ServiceControllerBase with _$ServiceController;
 
 abstract class _ServiceControllerBase with Store {
-  final _userDao = UserDAO();
+  final _pokemonModel = PokemonModel(Dio());
 
   @observable
-  ObservableList<User> listUsers = ObservableList();
+  Pokemon queryPokemon;
 
   @observable
-  User user;
+  PokemonDetails pokemonDetails;
 
   @action
-  Future<void> getListUsers() async {
-    final response = await _userDao.getList();
-    listUsers = response.asObservable();
+  Future<void> getQueryPokemon() async {
+    final response = await _pokemonModel.getQueryPokemon();
+    queryPokemon = response;
   }
 
   @action
-  saveUser(User user) async {
-    await _userDao.save(user);
+  Future<void> getPokemonDetail(String name) async {
+    final response = await _pokemonModel.getPokemonDetail(name);
+    pokemonDetails = response;
   }
 }

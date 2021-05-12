@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/forms.dart';
+import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/forms_controller.dart';
-import 'package:pokedex/controller/service_controller.dart';
 import 'package:pokedex/models/user_model.dart';
 
 class Register extends StatefulWidget {
@@ -11,7 +11,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final _serviceController = ServiceController();
+  final _daoController = DaoController();
   final _formsController = FormsController();
 
   final TextEditingController _nameController = TextEditingController();
@@ -108,7 +108,7 @@ class _RegisterState extends State<Register> {
                           ),
                           onPressed: _formsController.registerIsValid
                               ? () {
-                                  _serviceController
+                                  _daoController
                                       .saveUser(User(
                                           name: _nameController.text,
                                           email: _emailController.text,
