@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/forms.dart';
+import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/forms_controller.dart';
-import 'package:pokedex/database/dao/user_dao.dart';
 import 'package:pokedex/models/user_model.dart';
 
 class Register extends StatefulWidget {
@@ -11,7 +11,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final UserDAO _dao = UserDAO();
+  final _daoController = DaoController();
   final _formsController = FormsController();
 
   final TextEditingController _nameController = TextEditingController();
@@ -108,22 +108,14 @@ class _RegisterState extends State<Register> {
                           ),
                           onPressed: _formsController.registerIsValid
                               ? () {
-                                  final String name = _nameController.text;
-                                  final String email = _emailController.text;
-                                  final int phone =
-                                      int.tryParse(_phoneController.text);
-                                  final String password =
-                                      _passwordController.text;
-
-                                  final User newUser = User(
-                                    name: name,
-                                    email: email,
-                                    phone: phone,
-                                    password: password,
-                                  );
-                                  _dao.save(newUser).then(
-                                        (value) => Navigator.pop(context),
-                                      );
+                                  _daoController
+                                      .saveUser(User(
+                                          name: _nameController.text,
+                                          email: _emailController.text,
+                                          phone: int.tryParse(
+                                              _phoneController.text),
+                                          password: _passwordController.text))
+                                      .then((value) => Navigator.pop(context));
                                 }
                               : null,
                         );

@@ -9,56 +9,50 @@ part of 'service_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ServiceController on _ServiceControllerBase, Store {
-  final _$listUsersAtom = Atom(name: '_ServiceControllerBase.listUsers');
+  final _$pokemonsAtom = Atom(name: '_ServiceControllerBase.pokemons');
 
   @override
-  ObservableList<User> get listUsers {
-    _$listUsersAtom.reportRead();
-    return super.listUsers;
+  List<PokemonDetails> get pokemons {
+    _$pokemonsAtom.reportRead();
+    return super.pokemons;
   }
 
   @override
-  set listUsers(ObservableList<User> value) {
-    _$listUsersAtom.reportWrite(value, super.listUsers, () {
-      super.listUsers = value;
+  set pokemons(List<PokemonDetails> value) {
+    _$pokemonsAtom.reportWrite(value, super.pokemons, () {
+      super.pokemons = value;
     });
   }
 
-  final _$userAtom = Atom(name: '_ServiceControllerBase.user');
+  final _$listPokemonsDetailsAtom =
+      Atom(name: '_ServiceControllerBase.listPokemonsDetails');
 
   @override
-  User get user {
-    _$userAtom.reportRead();
-    return super.user;
+  List<Future<PokemonDetails>> get listPokemonsDetails {
+    _$listPokemonsDetailsAtom.reportRead();
+    return super.listPokemonsDetails;
   }
 
   @override
-  set user(User value) {
-    _$userAtom.reportWrite(value, super.user, () {
-      super.user = value;
+  set listPokemonsDetails(List<Future<PokemonDetails>> value) {
+    _$listPokemonsDetailsAtom.reportWrite(value, super.listPokemonsDetails, () {
+      super.listPokemonsDetails = value;
     });
   }
 
-  final _$getListUsersAsyncAction =
-      AsyncAction('_ServiceControllerBase.getListUsers');
+  final _$getQueryPokemonAsyncAction =
+      AsyncAction('_ServiceControllerBase.getQueryPokemon');
 
   @override
-  Future<void> getListUsers() {
-    return _$getListUsersAsyncAction.run(() => super.getListUsers());
-  }
-
-  final _$saveUserAsyncAction = AsyncAction('_ServiceControllerBase.saveUser');
-
-  @override
-  Future saveUser(User user) {
-    return _$saveUserAsyncAction.run(() => super.saveUser(user));
+  Future<void> getQueryPokemon() {
+    return _$getQueryPokemonAsyncAction.run(() => super.getQueryPokemon());
   }
 
   @override
   String toString() {
     return '''
-listUsers: ${listUsers},
-user: ${user}
+pokemons: ${pokemons},
+listPokemonsDetails: ${listPokemonsDetails}
     ''';
   }
 }

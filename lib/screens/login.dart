@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:pokedex/components/dialogs.dart';
 import 'package:pokedex/components/forms.dart';
+import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/forms_controller.dart';
-import 'package:pokedex/controller/service_controller.dart';
-import 'package:pokedex/database/dao/user_dao.dart';
-import 'package:pokedex/screens/menu.dart';
+import 'package:pokedex/screens/main_menu.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final _serviceController = ServiceController();
+  final _daoController = DaoController();
   final _formsController = FormsController();
 
   final TextEditingController _emailController = TextEditingController();
@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _serviceController.getListUsers();
+      _daoController.getListUsers();
     });
   }
 
@@ -96,7 +96,7 @@ class _LoginState extends State<Login> {
                               ),
                               onPressed: _formsController.loginIsValid
                                   ? () {
-                                      final userLogged = _serviceController
+                                      final userLogged = _daoController
                                           .listUsers
                                           .firstWhere(
                                               (e) =>
@@ -106,11 +106,12 @@ class _LoginState extends State<Login> {
                                                       _passwordController.text,
                                               orElse: () => null);
                                       if (userLogged == null) {
+                                        Dialogs().errorLogin(context);
                                       } else {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => Menu(
+                                            builder: (context) => MainMenu(
                                                 userLoggedId: userLogged.id),
                                           ),
                                         );
