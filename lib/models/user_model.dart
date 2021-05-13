@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class User {
-  int id;
+  num id;
   final String name;
   final String email;
-  final int phone;
+  final num phone;
   final String password;
 
   User({

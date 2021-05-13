@@ -39,12 +39,50 @@ mixin _$DaoController on _DaoControllerBase, Store {
     });
   }
 
+  final _$listFavoriteAtom = Atom(name: '_DaoControllerBase.listFavorite');
+
+  @override
+  ObservableList<Favorite> get listFavorite {
+    _$listFavoriteAtom.reportRead();
+    return super.listFavorite;
+  }
+
+  @override
+  set listFavorite(ObservableList<Favorite> value) {
+    _$listFavoriteAtom.reportWrite(value, super.listFavorite, () {
+      super.listFavorite = value;
+    });
+  }
+
+  final _$favoriteAtom = Atom(name: '_DaoControllerBase.favorite');
+
+  @override
+  Favorite get favorite {
+    _$favoriteAtom.reportRead();
+    return super.favorite;
+  }
+
+  @override
+  set favorite(Favorite value) {
+    _$favoriteAtom.reportWrite(value, super.favorite, () {
+      super.favorite = value;
+    });
+  }
+
   final _$getListUsersAsyncAction =
       AsyncAction('_DaoControllerBase.getListUsers');
 
   @override
   Future<void> getListUsers() {
     return _$getListUsersAsyncAction.run(() => super.getListUsers());
+  }
+
+  final _$getListFavoritesAsyncAction =
+      AsyncAction('_DaoControllerBase.getListFavorites');
+
+  @override
+  Future<void> getListFavorites() {
+    return _$getListFavoritesAsyncAction.run(() => super.getListFavorites());
   }
 
   final _$saveUserAsyncAction = AsyncAction('_DaoControllerBase.saveUser');
@@ -54,11 +92,30 @@ mixin _$DaoController on _DaoControllerBase, Store {
     return _$saveUserAsyncAction.run(() => super.saveUser(user));
   }
 
+  final _$saveFavoriteAsyncAction =
+      AsyncAction('_DaoControllerBase.saveFavorite');
+
+  @override
+  Future saveFavorite(Favorite favorite) {
+    return _$saveFavoriteAsyncAction.run(() => super.saveFavorite(favorite));
+  }
+
+  final _$updateFavoriteAsyncAction =
+      AsyncAction('_DaoControllerBase.updateFavorite');
+
+  @override
+  Future updateFavorite(Favorite favorite) {
+    return _$updateFavoriteAsyncAction
+        .run(() => super.updateFavorite(favorite));
+  }
+
   @override
   String toString() {
     return '''
 listUsers: ${listUsers},
-user: ${user}
+user: ${user},
+listFavorite: ${listFavorite},
+favorite: ${favorite}
     ''';
   }
 }

@@ -21,23 +21,10 @@ class UserDAO {
   //     finder: finder,
   //   );
   // }
-  //
-  // Future delete(User user) async {
-  //   final finder = Finder(filter: Filter.byKey(user.id));
-  //   await _userStore.delete(
-  //     await _db,
-  //     finder: finder,
-  //   );
-  // }
 
   Future<List<User>> getList() async {
-    // final finder = Finder(sortOrders: [
-    //   SortOrder('name'),
-    // ]);
-
     final recordSnapshots = await _userStore.find(
       await _db,
-      // finder: finder,
     );
 
     return recordSnapshots.map((snapshot) {
