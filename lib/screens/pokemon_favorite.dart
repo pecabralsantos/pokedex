@@ -11,7 +11,7 @@ class _PokemonFavoriteState extends State<PokemonFavorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Toolbar().appBar(true),
+      appBar: Toolbar().appBar(),
       body: Stack(
         children: [
           Wallpaper().background(),
