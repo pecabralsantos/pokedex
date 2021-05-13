@@ -11,8 +11,8 @@ class Menu {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 95,
-            height: 95,
+            width: 125,
+            height: 125,
             padding: EdgeInsets.all(8),
             margin: EdgeInsets.only(bottom: 4),
             decoration: BoxDecoration(
@@ -21,7 +21,7 @@ class Menu {
                 color: Colors.blueGrey.shade800,
                 width: 1,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: BorderRadius.all(Radius.circular(100)),
             ),
             child: icon,
           ),

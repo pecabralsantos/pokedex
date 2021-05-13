@@ -16,11 +16,12 @@ class MainMenu extends StatelessWidget {
         children: [
           Wallpaper().background(),
           Container(
-            child: Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            padding: EdgeInsets.fromLTRB(40, 8, 40, 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Menu().options(
                       context,
@@ -28,14 +29,22 @@ class MainMenu extends StatelessWidget {
                       'POKÉDEX',
                       1,
                     ),
-                    SizedBox(height: 32),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
                     Menu().options(
                       context,
                       Image.asset('images/ic_favorite_pokemon.png'),
                       'POKEMONS\nFAVORITOS',
                       2,
                     ),
-                    SizedBox(height: 32),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
                     Menu().options(
                       context,
                       Image.asset('images/ic_profile_master.png'),
@@ -43,7 +52,11 @@ class MainMenu extends StatelessWidget {
                       3,
                       userLoggedId,
                     ),
-                    SizedBox(height: 32),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
                     Menu().options(
                       context,
                       Image.asset('images/ic_logout.png'),
@@ -52,7 +65,7 @@ class MainMenu extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
           ),
         ],

@@ -13,14 +13,12 @@ class Pokemons extends StatefulWidget {
 
 class _PokemonsState extends State<Pokemons> {
   final _serviceController = ServiceController();
-  final _daoController = DaoController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _serviceController.getQueryPokemon();
-      _daoController?.getListFavorites();
     });
   }
 
@@ -34,7 +32,6 @@ class _PokemonsState extends State<Pokemons> {
           Observer(
             builder: (_) {
               final listPokemons = _serviceController.pokemons;
-              final listFavorite = _daoController?.listFavorite;
               if (listPokemons?.isEmpty ?? true) {
                 return Center(
                   child: Image.asset('images/loading.gif', width: 200),
@@ -43,7 +40,6 @@ class _PokemonsState extends State<Pokemons> {
                 return ListView.builder(
                   itemCount: listPokemons.length,
                   itemBuilder: (_, index) {
-                    // var favorite = listFavorite[index];
                     return Cards().pokemon(listPokemons[index]);
                   },
                 );

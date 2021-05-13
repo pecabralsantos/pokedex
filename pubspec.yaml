@@ -68,6 +68,7 @@ flutter:
     - images/ic_profile_master.png
     - images/ic_favorite_pokemon.png
     - images/ic_logout.png
+    - images/ic_background_pokeball.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

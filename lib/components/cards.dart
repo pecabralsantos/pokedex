@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/models/pokemon_model.dart';
 
 class Cards {
   pokemon(PokemonDetails details) {
+    final _daoController = DaoController();
     final primatyType = details.types.first.type.name;
     final secondType = details.types.last.type.name;
 
@@ -22,71 +24,107 @@ class Cards {
           ),
         ],
       ),
-      child: ListTile(
-        leading: SvgPicture.network(
-          details.sprites.other.dreamWorld.frontDefault,
-          width: 60,
-          height: 60,
-        ),
-        title: Text(
-          details.name,
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
+      child: Stack(
+        children: [
+          Image.asset(
+            'images/ic_background_pokeball.png',
+            color: Colors.white24,
+            width: 90,
+            height: 70,
+            fit: BoxFit.fitWidth,
           ),
-        ),
-        subtitle: Row(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 8),
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: backgroundCard(primatyType),
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black45.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                  ),
-                ],
-              ),
-              child: Text(
-                primatyType,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey.shade200,
-                ),
-              ),
+          ListTile(
+            leading: SvgPicture.network(
+              details.sprites.other.dreamWorld.frontDefault,
+              width: 60,
+              height: 60,
+              fit: BoxFit.fill,
             ),
-            details.types.last.slot == 2
-                ? Container(
-                    margin: EdgeInsets.fromLTRB(8, 8, 0, 0),
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: backgroundCard(secondType),
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black45.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 2,
-                        ),
-                      ],
+            title: Row(
+              children: [
+                Text(
+                  '#' + details.id.toString(),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+                SizedBox(width: 16),
+                Flexible(
+                  child: Text(
+                    details.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
                     ),
-                    child: Text(
-                      secondType,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade200,
+                  ),
+                )
+              ],
+            ),
+            subtitle: Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 12),
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: backgroundCard(primatyType),
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black45.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 2,
                       ),
+                    ],
+                  ),
+                  child: Text(
+                    primatyType,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey.shade200,
                     ),
+                  ),
+                ),
+                details.types.last.slot == 2
+                    ? Container(
+                        margin: EdgeInsets.fromLTRB(8, 12, 0, 0),
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: backgroundCard(secondType),
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black45.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          secondType,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.shade200,
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
+            trailing: details.favorite == null || details.favorite == false
+                ? IconButton(
+                    icon: Icon(Icons.favorite_outline),
+                    onPressed: () {},
                   )
-                : Container(),
-          ],
-        ),
-        onTap: () {},
+                : IconButton(
+                    icon: Icon(Icons.favorite),
+                    onPressed: () {},
+                  ),
+            onTap: () {},
+          ),
+        ],
       ),
     );
   }
