@@ -81,7 +81,7 @@ mixin _$DaoController on _DaoControllerBase, Store {
       AsyncAction('_DaoControllerBase.getListFavorites');
 
   @override
-  Future<void> getListFavorites() {
+  Future<List<Favorite>> getListFavorites() {
     return _$getListFavoritesAsyncAction.run(() => super.getListFavorites());
   }
 
@@ -100,13 +100,13 @@ mixin _$DaoController on _DaoControllerBase, Store {
     return _$saveFavoriteAsyncAction.run(() => super.saveFavorite(favorite));
   }
 
-  final _$updateFavoriteAsyncAction =
-      AsyncAction('_DaoControllerBase.updateFavorite');
+  final _$deleteFavoriteAsyncAction =
+      AsyncAction('_DaoControllerBase.deleteFavorite');
 
   @override
-  Future updateFavorite(Favorite favorite) {
-    return _$updateFavoriteAsyncAction
-        .run(() => super.updateFavorite(favorite));
+  Future deleteFavorite(Favorite favorite) {
+    return _$deleteFavoriteAsyncAction
+        .run(() => super.deleteFavorite(favorite));
   }
 
   @override

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/controller/dao_controller.dart';
+import 'package:pokedex/controller/service_controller.dart';
+import 'package:pokedex/models/favorite_model.dart';
 import 'package:pokedex/models/pokemon_model.dart';
 
 class Cards {
   pokemon(PokemonDetails details) {
+    final _serviceController = ServiceController();
     final _daoController = DaoController();
     final primatyType = details.types.first.type.name;
     final secondType = details.types.last.type.name;
@@ -113,14 +117,27 @@ class Cards {
                     : Container(),
               ],
             ),
-            trailing: details.favorite == null || details.favorite == false
-                ? IconButton(
-                    icon: Icon(Icons.favorite_outline),
-                    onPressed: () {},
+            trailing: details.favorite == null || !details.favorite
+                ? Observer(
+                    builder: (_) {
+                      return IconButton(
+                        icon: Icon(Icons.favorite_outline),
+                        onPressed: () {
+                          _daoController.saveFavorite(
+                            Favorite(namePokemon: details.name),
+                          );
+                          _serviceController.getQueryPokemon();
+                        },
+                      );
+                    },
                   )
-                : IconButton(
-                    icon: Icon(Icons.favorite),
-                    onPressed: () {},
+                : Observer(
+                    builder: (_) {
+                      return IconButton(
+                        icon: Icon(Icons.favorite),
+                        onPressed: () {},
+                      );
+                    },
                   ),
             onTap: () {},
           ),

@@ -50,6 +50,7 @@ PokemonDetails _$PokemonDetailsFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Types.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    favorite: json['favorite'] as bool,
   );
 }
 
@@ -59,6 +60,7 @@ Map<String, dynamic> _$PokemonDetailsToJson(PokemonDetails instance) =>
       'name': instance.name,
       'sprites': instance.sprites,
       'types': instance.types,
+      'favorite': instance.favorite,
     };
 
 Sprites _$SpritesFromJson(Map<String, dynamic> json) {
