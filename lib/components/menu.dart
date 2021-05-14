@@ -4,33 +4,48 @@ import 'package:pokedex/screens/pokemons.dart';
 import 'package:pokedex/screens/profile.dart';
 
 class Menu {
-  options(BuildContext context, Image icon, String title, int options,
-      [int userLoggedId]) {
+  options(BuildContext context, String title, int options, [int userLoggedId]) {
     return InkWell(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 95,
-            height: 95,
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(bottom: 4),
-            decoration: BoxDecoration(
-              color: Colors.blueGrey.shade200,
-              border: Border.all(
-                color: Colors.blueGrey.shade800,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+      child: Container(
+        width: double.maxFinite,
+        height: 100,
+        decoration: BoxDecoration(
+          color: optionsColor(options),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.7),
+              spreadRadius: 4,
+              blurRadius: 3,
+              offset: Offset(0.5, 0.5),
             ),
-            child: icon,
-          ),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-          ),
-        ],
+          ],
+        ),
+        child: Stack(
+          children: [
+            Container(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Image.asset(
+                'images/ic_background_pokeball.png',
+                color: Colors.white24,
+                width: 125,
+                height: 125,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+            Container(
+              alignment: AlignmentDirectional.centerStart,
+              padding: EdgeInsets.only(left: 24),
+              child: Text(
+                title,
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
+        ),
       ),
       onTap: () {
         switch (options) {
@@ -60,5 +75,21 @@ class Menu {
         }
       },
     );
+  }
+
+  optionsColor(int options) {
+    switch (options) {
+      case 1:
+        return Colors.green;
+        break;
+      case 2:
+        return Colors.blueAccent;
+        break;
+      case 3:
+        return Colors.deepPurple;
+        break;
+      default:
+        return Colors.brown;
+    }
   }
 }

@@ -59,12 +59,14 @@ class PokemonDetails {
   String name;
   Sprites sprites;
   List<Types> types;
+  bool favorite;
 
   PokemonDetails({
     this.id,
     this.name,
     this.sprites,
     this.types,
+    this.favorite,
   });
 
   factory PokemonDetails.fromJson(Map<String, dynamic> json) =>

@@ -19,7 +19,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Toolbar().appBar(true),
+      appBar: Toolbar().appBar(),
       body: Stack(
         children: [
           Wallpaper().background(),

@@ -31,9 +31,10 @@ abstract class _DaoControllerBase with Store {
   }
 
   @action
-  Future<void> getListFavorites() async {
+  Future<List<Favorite>> getListFavorites() async {
     final response = await _favoriteDao.getList();
     listFavorite = response.asObservable();
+    return listFavorite;
   }
 
   @action
@@ -47,7 +48,7 @@ abstract class _DaoControllerBase with Store {
   }
 
   @action
-  updateFavorite(Favorite favorite) async {
-    await _favoriteDao.update(favorite);
+  deleteFavorite(Favorite favorite) async {
+    await _favoriteDao.delete(favorite);
   }
 }

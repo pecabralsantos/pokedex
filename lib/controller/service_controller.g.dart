@@ -12,13 +12,13 @@ mixin _$ServiceController on _ServiceControllerBase, Store {
   final _$pokemonsAtom = Atom(name: '_ServiceControllerBase.pokemons');
 
   @override
-  List<PokemonDetails> get pokemons {
+  ObservableList<PokemonDetails> get pokemons {
     _$pokemonsAtom.reportRead();
     return super.pokemons;
   }
 
   @override
-  set pokemons(List<PokemonDetails> value) {
+  set pokemons(ObservableList<PokemonDetails> value) {
     _$pokemonsAtom.reportWrite(value, super.pokemons, () {
       super.pokemons = value;
     });

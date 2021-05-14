@@ -11,48 +11,19 @@ class MainMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Toolbar().appBar(false),
       body: Stack(
         children: [
           Wallpaper().background(),
           Container(
-            child: Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Menu().options(
-                      context,
-                      Image.asset('images/ic_pokedex.png'),
-                      'POKÉDEX',
-                      1,
-                    ),
-                    SizedBox(height: 32),
-                    Menu().options(
-                      context,
-                      Image.asset('images/ic_favorite_pokemon.png'),
-                      'POKEMONS\nFAVORITOS',
-                      2,
-                    ),
-                    SizedBox(height: 32),
-                    Menu().options(
-                      context,
-                      Image.asset('images/ic_profile_master.png'),
-                      'PERFIL',
-                      3,
-                      userLoggedId,
-                    ),
-                    SizedBox(height: 32),
-                    Menu().options(
-                      context,
-                      Image.asset('images/ic_logout.png'),
-                      'DESLOGAR',
-                      4,
-                    ),
-                  ],
-                ),
-              ),
+            padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Menu().options(context, 'POKÉDEX', 1),
+                Menu().options(context, 'POKEMONS\nFAVORITOS', 2),
+                Menu().options(context, 'PERFIL', 3, userLoggedId),
+                Menu().options(context, 'SAIR', 4),
+              ],
             ),
           ),
         ],
