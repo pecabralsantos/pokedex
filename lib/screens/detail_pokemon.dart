@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/components/wallpaper.dart';
+import 'package:pokedex/controller/dao_controller.dart';
+import 'package:pokedex/controller/service_controller.dart';
+import 'package:pokedex/models/favorite_model.dart';
 import 'package:pokedex/models/pokemon_model.dart';
 
 class DetailPokemon extends StatefulWidget {
@@ -16,6 +18,8 @@ class DetailPokemon extends StatefulWidget {
 
 class _DetailPokemonState extends State<DetailPokemon> {
   final PokemonDetails details;
+  final _daoController = DaoController();
+  final _serviceController = ServiceController();
 
   _DetailPokemonState(this.details);
 
@@ -44,15 +48,30 @@ class _DetailPokemonState extends State<DetailPokemon> {
                                 Icons.favorite_outline,
                                 color: Colors.white,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                _daoController.saveFavorite(
+                                  Favorite(namePokemon: details.name),
+                                );
+                                _serviceController.getQueryPokemon();
+                              },
                             );
                           },
                         )
                       : Observer(
                           builder: (_) {
                             return IconButton(
-                              icon: Icon(Icons.favorite),
-                              onPressed: () {},
+                              icon: Icon(
+                                Icons.favorite,
+                                color: Colors.white,
+                              ),
+                              onPressed: () async {
+                                await _daoController.getListFavorites();
+                                var favorite = _daoController.listFavorite
+                                    .firstWhere(
+                                        (e) => e.namePokemon == details.name);
+                                _daoController.deleteFavorite(favorite);
+                                await _serviceController.getQueryPokemon();
+                              },
                             );
                           },
                         ),
