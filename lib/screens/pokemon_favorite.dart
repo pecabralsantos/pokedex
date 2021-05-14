@@ -31,7 +31,7 @@ class _PokemonFavoriteState extends State<PokemonFavorite> {
       appBar: Toolbar().appBar(),
       body: Stack(
         children: [
-          Wallpaper().background(),
+          Wallpaper().backgroundPage(),
           Observer(
             builder: (_) {
               final listFavorites = _daoController.listFavorite;
@@ -69,7 +69,7 @@ class _PokemonFavoriteState extends State<PokemonFavorite> {
                     var pokemons = listPokemons.firstWhere(
                         (e) => e.name == favorites.namePokemon,
                         orElse: () => Dialogs().serviceError(context));
-                    return Cards().pokemon(pokemons);
+                    return Cards().pokemon(context, pokemons);
                   },
                 );
               }

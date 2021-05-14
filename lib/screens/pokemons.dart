@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/cards.dart';
 import 'package:pokedex/components/toolbar.dart';
 import 'package:pokedex/components/wallpaper.dart';
-import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
 
 class Pokemons extends StatefulWidget {
@@ -28,7 +27,7 @@ class _PokemonsState extends State<Pokemons> {
       appBar: Toolbar().appBar(),
       body: Stack(
         children: [
-          Wallpaper().background(),
+          Wallpaper().backgroundPage(),
           Observer(
             builder: (_) {
               final listPokemons = _serviceController.pokemons;
@@ -40,7 +39,7 @@ class _PokemonsState extends State<Pokemons> {
                 return ListView.builder(
                   itemCount: listPokemons.length,
                   itemBuilder: (_, index) {
-                    return Cards().pokemon(listPokemons[index]);
+                    return Cards().pokemon(context, listPokemons[index]);
                   },
                 );
               }

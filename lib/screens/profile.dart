@@ -22,7 +22,7 @@ class _ProfileState extends State<Profile> {
       appBar: Toolbar().appBar(),
       body: Stack(
         children: [
-          Wallpaper().background(),
+          Wallpaper().backgroundPage(),
           Center(
             child: Text('PERFIL'),
           ),
