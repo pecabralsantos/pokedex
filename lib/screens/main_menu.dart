@@ -20,7 +20,7 @@ class MainMenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Menu().options(context, 'POKÉDEX', 1),
-                Menu().options(context, 'POKEMONS FAVORITOS', 2),
+                Menu().options(context, 'POKEMONS\nFAVORITOS', 2),
                 Menu().options(context, 'PERFIL', 3, userLoggedId),
                 Menu().options(context, 'SAIR', 4),
               ],
