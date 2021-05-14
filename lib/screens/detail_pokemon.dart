@@ -48,11 +48,11 @@ class _DetailPokemonState extends State<DetailPokemon> {
                                 Icons.favorite_outline,
                                 color: Colors.white,
                               ),
-                              onPressed: () {
-                                _daoController.saveFavorite(
+                              onPressed: () async {
+                                await _daoController.saveFavorite(
                                   Favorite(namePokemon: details.name),
                                 );
-                                _serviceController.getQueryPokemon();
+                                await _serviceController.getQueryPokemon();
                               },
                             );
                           },
@@ -69,7 +69,7 @@ class _DetailPokemonState extends State<DetailPokemon> {
                                 var favorite = _daoController.listFavorite
                                     .firstWhere(
                                         (e) => e.namePokemon == details.name);
-                                _daoController.deleteFavorite(favorite);
+                                await _daoController.deleteFavorite(favorite);
                                 await _serviceController.getQueryPokemon();
                               },
                             );
