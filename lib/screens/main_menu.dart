@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/components/menu.dart';
-import 'package:pokedex/components/toolbar.dart';
 import 'package:pokedex/components/wallpaper.dart';
 
 class MainMenu extends StatelessWidget {

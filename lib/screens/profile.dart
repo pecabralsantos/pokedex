@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/components/toolbar.dart';
 import 'package:pokedex/components/wallpaper.dart';
 
 class Profile extends StatefulWidget {

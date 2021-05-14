@@ -57,13 +57,26 @@ class ResultListPokemons {
 class PokemonDetails {
   num id;
   String name;
+  @JsonKey(name: "base_experience")
+  num baseExperience;
+  num height;
+  num weight;
+  num order;
   Sprites sprites;
   List<Types> types;
+  Ability species;
+
+  // List<Abilities> abilities;
+  // List<Stats> stats;
   bool favorite;
 
   PokemonDetails({
     this.id,
     this.name,
+    this.baseExperience,
+    this.height,
+    this.weight,
+    this.order,
     this.sprites,
     this.types,
     this.favorite,

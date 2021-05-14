@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/components/wallpaper.dart';
@@ -159,7 +160,7 @@ class _DetailPokemonState extends State<DetailPokemon> {
               child: Container(
                 width: double.maxFinite,
                 margin: EdgeInsets.only(top: 48),
-                padding: EdgeInsets.fromLTRB(8, 40, 9, 16),
+                padding: EdgeInsets.fromLTRB(16, 40, 16, 16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
@@ -167,7 +168,61 @@ class _DetailPokemonState extends State<DetailPokemon> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Column(
-                    children: [],
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          'Estatística base',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Wallpaper()
+                                .backgroundCard(details.types.first.type.name),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Ordem pokemon',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(width: 24),
+                          Text(details.order.toString()),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Altura',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(width: 24),
+                          Text(details.height.toString()),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Peso',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(width: 24),
+                          Text(details.weight.toString()),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Experiência base',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(width: 24),
+                          Text(details.baseExperience.toString()),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
