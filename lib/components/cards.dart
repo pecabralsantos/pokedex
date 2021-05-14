@@ -41,7 +41,7 @@ class Cards {
           ),
           ListTile(
             leading: Hero(
-              tag: 'pokemon',
+              tag: details.name,
               child: SvgPicture.network(
                 details.sprites.other.dreamWorld.frontDefault,
                 width: 60,

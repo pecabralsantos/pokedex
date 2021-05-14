@@ -28,7 +28,17 @@ class _PokemonFavoriteState extends State<PokemonFavorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Toolbar().appBar(),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(28, 33, 74, 0.8),
+        centerTitle: true,
+        title: Hero(
+          tag: 2,
+          child: Image.asset(
+            'images/ic_pokeball.png',
+            width: 35,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Wallpaper().backgroundPage(),

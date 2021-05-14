@@ -64,13 +64,13 @@ class _DetailPokemonState extends State<DetailPokemon> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Hero(
-                    tag: 'pokemon',
+                    tag: details.name,
                     child: SvgPicture.network(
                       details.sprites.other.dreamWorld.frontDefault,
-                      width: 90,
+                      width: 100,
                     ),
                   ),
-                  SizedBox(width: 24),
+                  SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

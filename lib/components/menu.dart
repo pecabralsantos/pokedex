@@ -25,12 +25,15 @@ class Menu {
           children: [
             Container(
               alignment: AlignmentDirectional.centerEnd,
-              child: Image.asset(
-                'images/ic_background_pokeball.png',
-                color: Colors.white24,
-                width: 125,
-                height: 125,
-                fit: BoxFit.fitWidth,
+              child: Hero(
+                tag: options,
+                child: Image.asset(
+                  'images/ic_background_pokeball.png',
+                  color: Colors.white24,
+                  width: 125,
+                  height: 125,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
             Container(
