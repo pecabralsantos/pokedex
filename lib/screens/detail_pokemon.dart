@@ -138,7 +138,8 @@ class _DetailPokemonState extends State<DetailPokemon> {
                               details.types.first.type.name,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey.shade200,
+                                color: Colors.grey.shade50,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -163,7 +164,8 @@ class _DetailPokemonState extends State<DetailPokemon> {
                                     details.types.last.type.name,
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.grey.shade200,
+                                      color: Colors.grey.shade50,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 )

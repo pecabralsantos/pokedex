@@ -93,7 +93,8 @@ class Cards {
                     primatyType,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey.shade200,
+                      color: Colors.grey.shade50,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -116,7 +117,8 @@ class Cards {
                           secondType,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey.shade200,
+                            color: Colors.grey.shade50,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       )
