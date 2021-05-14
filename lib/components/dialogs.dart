@@ -19,4 +19,23 @@ class Dialogs {
       },
     );
   }
+
+  serviceError(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text('Ops...'),
+          content: Text(
+              'Tivemos uma instabilidade em nosso sistema! Aguarde um pouco que já tudo volta ao normal.'),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () => Navigator.pop(context),
+            )
+          ],
+        );
+      },
+    );
+  }
 }
