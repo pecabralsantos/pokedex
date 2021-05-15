@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/components/wallpaper.dart';
 import 'package:pokedex/controller/dao_controller.dart';
@@ -125,34 +124,26 @@ class Cards {
               ],
             ),
             trailing: details.favorite == null || !details.favorite
-                ? Observer(
-                    builder: (_) {
-                      return IconButton(
-                        icon: Icon(Icons.favorite_outline),
-                        onPressed: () async {
-                          await _daoController.saveFavorite(
-                            Favorite(namePokemon: details.name),
-                          );
-                          await _serviceController.getQueryPokemon();
-                        },
+                ? IconButton(
+                    icon: Icon(Icons.favorite_outline),
+                    onPressed: () async {
+                      await _daoController.saveFavorite(
+                        Favorite(namePokemon: details.name),
                       );
+                      await _serviceController.getQueryPokemon();
                     },
                   )
-                : Observer(
-                    builder: (_) {
-                      return IconButton(
-                        icon: Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        ),
-                        onPressed: () async {
-                          await _daoController.getListFavorites();
-                          var favorite = _daoController.listFavorite
-                              .firstWhere((e) => e.namePokemon == details.name);
-                          await _daoController.deleteFavorite(favorite);
-                          await _serviceController.getQueryPokemon();
-                        },
-                      );
+                : IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                    onPressed: () async {
+                      await _daoController.getListFavorites();
+                      var favorite = _daoController.listFavorite
+                          .firstWhere((e) => e.namePokemon == details.name);
+                      await _daoController.deleteFavorite(favorite);
+                      await _serviceController.getQueryPokemon();
                     },
                   ),
             onTap: () {

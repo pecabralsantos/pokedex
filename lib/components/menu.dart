@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/components/wallpaper.dart';
 import 'package:pokedex/screens/pokemon_favorite.dart';
 import 'package:pokedex/screens/pokemons.dart';
 import 'package:pokedex/screens/profile.dart';
@@ -10,7 +11,7 @@ class Menu {
         width: double.maxFinite,
         height: 100,
         decoration: BoxDecoration(
-          color: optionsColor(options),
+          color: Wallpaper().optionsColor(options),
           borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
@@ -78,21 +79,5 @@ class Menu {
         }
       },
     );
-  }
-
-  optionsColor(int options) {
-    switch (options) {
-      case 1:
-        return Colors.green;
-        break;
-      case 2:
-        return Colors.blueAccent;
-        break;
-      case 3:
-        return Colors.deepPurple;
-        break;
-      default:
-        return Colors.brown;
-    }
   }
 }

@@ -12,6 +12,22 @@ class Wallpaper {
     );
   }
 
+  optionsColor(int options) {
+    switch (options) {
+      case 1:
+        return Colors.redAccent;
+        break;
+      case 2:
+        return Colors.blueAccent;
+        break;
+      case 3:
+        return Colors.deepPurple;
+        break;
+      default:
+        return Colors.teal;
+    }
+  }
+
   backgroundCard(String type) {
     switch (type) {
       case 'normal':
