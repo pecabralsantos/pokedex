@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/components/menu.dart';
-import 'package:pokedex/components/toolbar.dart';
 import 'package:pokedex/components/wallpaper.dart';
 
 class MainMenu extends StatelessWidget {
@@ -13,7 +12,7 @@ class MainMenu extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Wallpaper().background(),
+          Wallpaper().backgroundPage(),
           Container(
             padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
             child: Column(

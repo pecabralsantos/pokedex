@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/cards.dart';
 import 'package:pokedex/components/dialogs.dart';
-import 'package:pokedex/components/toolbar.dart';
 import 'package:pokedex/components/wallpaper.dart';
 import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
@@ -28,10 +27,20 @@ class _PokemonFavoriteState extends State<PokemonFavorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Toolbar().appBar(),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(28, 33, 74, 0.8),
+        centerTitle: true,
+        title: Hero(
+          tag: 2,
+          child: Image.asset(
+            'images/ic_pokeball.png',
+            width: 35,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
-          Wallpaper().background(),
+          Wallpaper().backgroundPage(),
           Observer(
             builder: (_) {
               final listFavorites = _daoController.listFavorite;
@@ -69,7 +78,7 @@ class _PokemonFavoriteState extends State<PokemonFavorite> {
                     var pokemons = listPokemons.firstWhere(
                         (e) => e.name == favorites.namePokemon,
                         orElse: () => Dialogs().serviceError(context));
-                    return Cards().pokemon(pokemons);
+                    return Cards().pokemon(context, pokemons);
                   },
                 );
               }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/cards.dart';
-import 'package:pokedex/components/toolbar.dart';
 import 'package:pokedex/components/wallpaper.dart';
-import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
 
 class Pokemons extends StatefulWidget {
@@ -25,10 +23,20 @@ class _PokemonsState extends State<Pokemons> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Toolbar().appBar(),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(28, 33, 74, 0.8),
+        centerTitle: true,
+        title: Hero(
+          tag: 1,
+          child: Image.asset(
+            'images/ic_pokeball.png',
+            width: 35,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
-          Wallpaper().background(),
+          Wallpaper().backgroundPage(),
           Observer(
             builder: (_) {
               final listPokemons = _serviceController.pokemons;
@@ -40,7 +48,7 @@ class _PokemonsState extends State<Pokemons> {
                 return ListView.builder(
                   itemCount: listPokemons.length,
                   itemBuilder: (_, index) {
-                    return Cards().pokemon(listPokemons[index]);
+                    return Cards().pokemon(context, listPokemons[index]);
                   },
                 );
               }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pokedex/components/wallpaper.dart';
 import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
 import 'package:pokedex/models/favorite_model.dart';
 import 'package:pokedex/models/pokemon_model.dart';
+import 'package:pokedex/screens/detail_pokemon.dart';
 
 class Cards {
-  pokemon(PokemonDetails details) {
+  pokemon(BuildContext context, PokemonDetails details) {
     final _serviceController = ServiceController();
     final _daoController = DaoController();
     final primatyType = details.types.first.type.name;
@@ -17,7 +18,7 @@ class Cards {
       margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: backgroundCard(primatyType),
+        color: Wallpaper().backgroundCard(primatyType),
         borderRadius: BorderRadius.all(Radius.circular(4)),
         boxShadow: [
           BoxShadow(
@@ -38,11 +39,14 @@ class Cards {
             fit: BoxFit.fitWidth,
           ),
           ListTile(
-            leading: SvgPicture.network(
-              details.sprites.other.dreamWorld.frontDefault,
-              width: 60,
-              height: 60,
-              fit: BoxFit.fill,
+            leading: Hero(
+              tag: details.name,
+              child: SvgPicture.network(
+                details.sprites.other.dreamWorld.frontDefault,
+                width: 60,
+                height: 60,
+                fit: BoxFit.fill,
+              ),
             ),
             title: Row(
               children: [
@@ -73,7 +77,7 @@ class Cards {
                   margin: EdgeInsets.only(top: 12),
                   padding: EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: backgroundCard(primatyType),
+                    color: Wallpaper().backgroundCard(primatyType),
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     boxShadow: [
                       BoxShadow(
@@ -87,7 +91,8 @@ class Cards {
                     primatyType,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey.shade200,
+                      color: Colors.grey.shade50,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -96,7 +101,7 @@ class Cards {
                         margin: EdgeInsets.fromLTRB(8, 12, 0, 0),
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: backgroundCard(secondType),
+                          color: Wallpaper().backgroundCard(secondType),
                           borderRadius: BorderRadius.all(Radius.circular(4)),
                           boxShadow: [
                             BoxShadow(
@@ -110,7 +115,8 @@ class Cards {
                           secondType,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey.shade200,
+                            color: Colors.grey.shade50,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       )
@@ -118,90 +124,38 @@ class Cards {
               ],
             ),
             trailing: details.favorite == null || !details.favorite
-                ? Observer(
-                    builder: (_) {
-                      return IconButton(
-                        icon: Icon(Icons.favorite_outline),
-                        onPressed: () {
-                          _daoController.saveFavorite(
-                            Favorite(namePokemon: details.name),
-                          );
-                          _serviceController.getQueryPokemon();
-                        },
+                ? IconButton(
+                    icon: Icon(Icons.favorite_outline),
+                    onPressed: () async {
+                      await _daoController.saveFavorite(
+                        Favorite(namePokemon: details.name),
                       );
+                      await _serviceController.getQueryPokemon();
                     },
                   )
-                : Observer(
-                    builder: (_) {
-                      return IconButton(
-                        icon: Icon(Icons.favorite),
-                        onPressed: () {},
-                      );
+                : IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                    onPressed: () async {
+                      await _daoController.getListFavorites();
+                      var favorite = _daoController.listFavorite
+                          .firstWhere((e) => e.namePokemon == details.name);
+                      await _daoController.deleteFavorite(favorite);
+                      await _serviceController.getQueryPokemon();
                     },
                   ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (_) {
+                  return DetailPokemon(details: details);
+                },
+              ));
+            },
           ),
         ],
       ),
     );
-  }
-
-  backgroundCard(String type) {
-    switch (type) {
-      case 'normal':
-        return Color.fromRGBO(168, 167, 122, 1);
-        break;
-      case 'fighting':
-        return Color.fromRGBO(194, 46, 40, 1);
-        break;
-      case 'flying':
-        return Color.fromRGBO(169, 143, 243, 1);
-        break;
-      case 'poison':
-        return Color.fromRGBO(163, 62, 161, 1);
-        break;
-      case 'ground':
-        return Color.fromRGBO(226, 191, 101, 1);
-        break;
-      case 'rock':
-        return Color.fromRGBO(182, 161, 54, 1);
-        break;
-      case 'bug':
-        return Color.fromRGBO(166, 185, 26, 1);
-        break;
-      case 'ghost':
-        return Color.fromRGBO(115, 87, 151, 1);
-        break;
-      case 'steel':
-        return Color.fromRGBO(183, 183, 206, 1);
-        break;
-      case 'fire':
-        return Color.fromRGBO(238, 129, 48, 1);
-        break;
-      case 'water':
-        return Color.fromRGBO(99, 144, 240, 1);
-        break;
-      case 'grass':
-        return Color.fromRGBO(122, 199, 76, 1);
-        break;
-      case 'electric':
-        return Color.fromRGBO(247, 208, 44, 1);
-        break;
-      case 'ice':
-        return Color.fromRGBO(150, 217, 214, 1);
-        break;
-      case 'dragon':
-        return Color.fromRGBO(111, 53, 252, 1);
-        break;
-      case 'dark':
-        return Color.fromRGBO(112, 87, 70, 1);
-        break;
-      case 'fairy':
-        return Color.fromRGBO(214, 133, 173, 1);
-        break;
-      default:
-        return Colors.grey;
-        break;
-    }
   }
 }
