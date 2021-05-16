@@ -164,7 +164,7 @@ class _PokemonDetailState extends State<PokemonDetail> {
                           var abilities = pokemon.abilities[index];
                           return Column(
                             children: [
-                              DetailOptions().ability(abilities, fisrtType),
+                              DetailOptions().ability(abilities),
                             ],
                           );
                         },

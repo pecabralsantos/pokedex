@@ -31,35 +31,26 @@ class DetailOptions {
     );
   }
 
-  ability(Abilities abilities, String type) {
-    return Container(
-      width: double.maxFinite,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 160,
-            height: 28,
-            child: Text(
-              abilities.slot.toString() + '.',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+  ability(Abilities abilities) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 160,
+          height: 28,
+          child: Text(
+            'Eslote ' + abilities.slot.toString() + '.',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(abilities.ability.name),
-                Text(abilities.isHidden ? 'hidden' : '',
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        decoration: TextDecoration.underline)),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+        Text(abilities.ability.name + ' '),
+        Text(
+          abilities.isHidden ? '(hidden)' : '',
+          style: TextStyle(
+              fontStyle: FontStyle.italic,
+              decoration: TextDecoration.underline),
+        ),
+      ],
     );
   }
 }
