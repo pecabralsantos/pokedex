@@ -1,8 +1,8 @@
 import 'package:mobx/mobx.dart';
 import 'package:pokedex/database/dao/favorite_dao.dart';
 import 'package:pokedex/database/dao/user_dao.dart';
-import 'package:pokedex/models/favorite_model.dart';
-import 'package:pokedex/models/user_model.dart';
+import 'package:pokedex/models/repository/favorite_repository.dart';
+import 'package:pokedex/models/repository/user_repository.dart';
 
 part 'dao_controller.g.dart';
 

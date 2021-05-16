@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pokedex/controller/dao_controller.dart';
-import 'package:pokedex/models/pokemon_model.dart';
+import 'package:pokedex/models/api_model.dart';
+import 'package:pokedex/models/repository/pokemon_repository.dart';
 
 part 'service_controller.g.dart';
 
 class ServiceController = _ServiceControllerBase with _$ServiceController;
 
 abstract class _ServiceControllerBase with Store {
-  final _pokemonModel = PokemonModel(Dio());
+  final _apiModel = ApiModel(Dio());
   final _daoController = DaoController();
 
   @observable
@@ -16,10 +17,10 @@ abstract class _ServiceControllerBase with Store {
 
   @action
   Future<void> getApiPokemon() async {
-    final response = await _pokemonModel.getApiPokemon(8, 0).then((v) {
+    final response = await _apiModel.getApiPokemon(8, 0).then((v) {
       final pokemon = <Future<Pokemon>>[];
       v.results.forEach((e) {
-        pokemon.add(_pokemonModel.getPokemon(e.url));
+        pokemon.add(_apiModel.getPokemon(e.url));
       });
       return Future.wait(pokemon);
     });

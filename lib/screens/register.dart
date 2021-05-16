@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/forms.dart';
 import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/forms_controller.dart';
-import 'package:pokedex/models/user_model.dart';
+import 'package:pokedex/models/repository/user_repository.dart';
 
 class Register extends StatefulWidget {
   @override

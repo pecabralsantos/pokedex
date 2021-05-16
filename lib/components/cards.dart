@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/components/wallpaper.dart';
 import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
-import 'package:pokedex/models/favorite_model.dart';
-import 'package:pokedex/models/pokemon_model.dart';
+import 'package:pokedex/models/repository/favorite_repository.dart';
+import 'package:pokedex/models/repository/pokemon_repository.dart';
 import 'package:pokedex/screens/pokemon_detail.dart';
 
 class Cards {

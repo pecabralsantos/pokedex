@@ -1,21 +1,6 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:retrofit/retrofit.dart';
 
-part 'pokemon_model.g.dart';
-
-@RestApi(baseUrl: "")
-abstract class PokemonModel {
-  factory PokemonModel(Dio dio, {String baseUrl}) = _PokemonModel;
-
-  @GET("https://pokeapi.co/api/v2/pokemon")
-  Future<ApiPokemon> getApiPokemon(
-      @Query("limit") num limit, @Query("offset") num offset);
-
-  @GET("{url}")
-  Future<Pokemon> getPokemon(@Path('url') String url);
-}
+part 'pokemon_repository.g.dart';
 
 @JsonSerializable()
 class ApiPokemon {
@@ -64,10 +49,11 @@ class Pokemon {
   num order;
   Sprites sprites;
   List<Types> types;
-  // List<Abilities> abilities;
-  // List<Stats> stats;
+  List<Abilities> abilities;
   bool favorite;
-  // Ability species;
+
+  // List<Stats> stats;
+  // Specie species;
 
   Pokemon({
     this.id,
@@ -145,4 +131,30 @@ class Type {
   factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$TypeToJson(this);
+}
+
+@JsonSerializable()
+class Abilities {
+  num slot;
+  Ability ability;
+
+  Abilities({this.slot, this.ability});
+
+  factory Abilities.fromJson(Map<String, dynamic> json) =>
+      _$AbilitiesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AbilitiesToJson(this);
+}
+
+@JsonSerializable()
+class Ability {
+  String name;
+  String url;
+
+  Ability({this.name, this.url});
+
+  factory Ability.fromJson(Map<String, dynamic> json) =>
+      _$AbilityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AbilityToJson(this);
 }
