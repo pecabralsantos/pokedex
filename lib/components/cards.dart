@@ -11,14 +11,14 @@ class Cards {
   info(BuildContext context, Pokemon pokemon) {
     final _serviceController = ServiceController();
     final _daoController = DaoController();
-    final primatyType = pokemon.types.first.type.name;
-    final secondType = pokemon.types.last.type.name;
+    final fisrtType = pokemon.types.first.type.name;
+    final lastType = pokemon.types.last.type.name;
 
     return Container(
       margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Wallpaper().backgroundCard(primatyType),
+        color: Wallpaper().backgroundCard(fisrtType),
         borderRadius: BorderRadius.all(Radius.circular(4)),
         boxShadow: [
           BoxShadow(
@@ -73,53 +73,9 @@ class Cards {
             ),
             subtitle: Row(
               children: [
-                Container(
-                  margin: EdgeInsets.only(top: 12),
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Wallpaper().backgroundCard(primatyType),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black45.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    primatyType,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade50,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                type(fisrtType, EdgeInsets.only(top: 12)),
                 pokemon.types.last.slot == 2
-                    ? Container(
-                        margin: EdgeInsets.fromLTRB(8, 12, 0, 0),
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Wallpaper().backgroundCard(secondType),
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black45.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          secondType,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade50,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
+                    ? type(lastType, EdgeInsets.fromLTRB(8, 12, 0, 0))
                     : Container(),
               ],
             ),
@@ -146,7 +102,7 @@ class Cards {
                       await _serviceController.getApiPokemon();
                     },
                   ),
-            onTap: () {
+            onTap: () async {
               Navigator.push(context, MaterialPageRoute(
                 builder: (_) {
                   return PokemonDetail(pokemon: pokemon);
@@ -155,6 +111,32 @@ class Cards {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  type(String type, [EdgeInsets edgeInsets]) {
+    return Container(
+      margin: edgeInsets,
+      padding: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Wallpaper().backgroundCard(type),
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black45.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 2,
+          ),
+        ],
+      ),
+      child: Text(
+        type,
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.grey.shade50,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

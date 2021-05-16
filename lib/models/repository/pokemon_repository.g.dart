@@ -55,11 +55,16 @@ Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Types.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    abilities: (json['abilities'] as List)
+        ?.map((e) =>
+            e == null ? null : Abilities.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    stats: (json['stats'] as List)
+        ?.map(
+            (e) => e == null ? null : Stats.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     favorite: json['favorite'] as bool,
-  )..abilities = (json['abilities'] as List)
-      ?.map((e) =>
-          e == null ? null : Abilities.fromJson(e as Map<String, dynamic>))
-      ?.toList();
+  );
 }
 
 Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
@@ -72,6 +77,7 @@ Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
       'sprites': instance.sprites,
       'types': instance.types,
       'abilities': instance.abilities,
+      'stats': instance.stats,
       'favorite': instance.favorite,
     };
 
@@ -137,6 +143,7 @@ Map<String, dynamic> _$TypeToJson(Type instance) => <String, dynamic>{
 Abilities _$AbilitiesFromJson(Map<String, dynamic> json) {
   return Abilities(
     slot: json['slot'] as num,
+    isHidden: json['is_hidden'] as bool,
     ability: json['ability'] == null
         ? null
         : Ability.fromJson(json['ability'] as Map<String, dynamic>),
@@ -145,6 +152,7 @@ Abilities _$AbilitiesFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$AbilitiesToJson(Abilities instance) => <String, dynamic>{
       'slot': instance.slot,
+      'is_hidden': instance.isHidden,
       'ability': instance.ability,
     };
 
@@ -158,4 +166,28 @@ Ability _$AbilityFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$AbilityToJson(Ability instance) => <String, dynamic>{
       'name': instance.name,
       'url': instance.url,
+    };
+
+Stats _$StatsFromJson(Map<String, dynamic> json) {
+  return Stats(
+    baseStat: json['base_stat'] as num,
+    stat: json['stat'] == null
+        ? null
+        : Stat.fromJson(json['stat'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$StatsToJson(Stats instance) => <String, dynamic>{
+      'base_stat': instance.baseStat,
+      'stat': instance.stat,
+    };
+
+Stat _$StatFromJson(Map<String, dynamic> json) {
+  return Stat(
+    name: json['name'] as String,
+  );
+}
+
+Map<String, dynamic> _$StatToJson(Stat instance) => <String, dynamic>{
+      'name': instance.name,
     };

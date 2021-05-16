@@ -50,10 +50,8 @@ class Pokemon {
   Sprites sprites;
   List<Types> types;
   List<Abilities> abilities;
+  List<Stats> stats;
   bool favorite;
-
-  // List<Stats> stats;
-  // Specie species;
 
   Pokemon({
     this.id,
@@ -64,6 +62,8 @@ class Pokemon {
     this.order,
     this.sprites,
     this.types,
+    this.abilities,
+    this.stats,
     this.favorite,
   });
 
@@ -136,9 +136,11 @@ class Type {
 @JsonSerializable()
 class Abilities {
   num slot;
+  @JsonKey(name: "is_hidden")
+  bool isHidden;
   Ability ability;
 
-  Abilities({this.slot, this.ability});
+  Abilities({this.slot, this.isHidden, this.ability});
 
   factory Abilities.fromJson(Map<String, dynamic> json) =>
       _$AbilitiesFromJson(json);
@@ -157,4 +159,28 @@ class Ability {
       _$AbilityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AbilityToJson(this);
+}
+
+@JsonSerializable()
+class Stats {
+  @JsonKey(name: "base_stat")
+  num baseStat;
+  Stat stat;
+
+  Stats({this.baseStat, this.stat});
+
+  factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatsToJson(this);
+}
+
+@JsonSerializable()
+class Stat {
+  String name;
+
+  Stat({this.name});
+
+  factory Stat.fromJson(Map<String, dynamic> json) => _$StatFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatToJson(this);
 }

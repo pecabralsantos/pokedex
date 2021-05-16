@@ -11,7 +11,10 @@ import 'package:pokedex/models/repository/pokemon_repository.dart';
 class PokemonDetail extends StatefulWidget {
   final Pokemon pokemon;
 
-  PokemonDetail({Key key, @required this.pokemon}) : super(key: key);
+  PokemonDetail({
+    Key key,
+    @required this.pokemon,
+  }) : super(key: key);
 
   @override
   _PokemonDetailState createState() => _PokemonDetailState(this.pokemon);
@@ -19,6 +22,7 @@ class PokemonDetail extends StatefulWidget {
 
 class _PokemonDetailState extends State<PokemonDetail> {
   final Pokemon pokemon;
+
   final _daoController = DaoController();
   final _serviceController = ServiceController();
 
@@ -26,9 +30,12 @@ class _PokemonDetailState extends State<PokemonDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final fisrtType = pokemon.types.first.type.name;
+    final lastType = pokemon.types.last.type.name;
+
     return Scaffold(
       body: Container(
-        color: Wallpaper().backgroundCard(pokemon.types.first.type.name),
+        color: Wallpaper().backgroundCard(fisrtType),
         padding: EdgeInsets.only(top: 32),
         child: Column(
           children: [
@@ -110,22 +117,20 @@ class _PokemonDetailState extends State<PokemonDetail> {
                           pokemon.name,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: Wallpaper()
-                                .backgroundCard(pokemon.types.first.type.name),
+                            color: Wallpaper().backgroundCard(fisrtType),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 16),
+                        padding: EdgeInsets.only(bottom: 20),
                         child: Text(
-                          'Dados base',
+                          'Informações básicas',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Wallpaper()
-                                .backgroundCard(pokemon.types.first.type.name),
+                            color: Wallpaper().backgroundCard(fisrtType),
                           ),
                         ),
                       ),
@@ -138,9 +143,58 @@ class _PokemonDetailState extends State<PokemonDetail> {
                       DetailOptions()
                           .attributes('Peso', pokemon.weight.toString()),
                       DetailOptions().attributes(
-                          'Tipo',
-                          pokemon.types.first.type.name,
-                          pokemon.types.last.type.name),
+                          'Tipo', fisrtType, lastType, pokemon.types),
+                      Padding(
+                        padding: EdgeInsets.only(top: 18),
+                        child: Text(
+                          'Habilidades',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Wallpaper().backgroundCard(fisrtType),
+                          ),
+                        ),
+                      ),
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: pokemon.abilities.length,
+                        itemBuilder: (_, index) {
+                          var abilities = pokemon.abilities[index];
+                          return Column(
+                            children: [
+                              DetailOptions().ability(abilities, fisrtType),
+                            ],
+                          );
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 18),
+                        child: Text(
+                          'Estatísticas',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Wallpaper().backgroundCard(fisrtType),
+                          ),
+                        ),
+                      ),
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: pokemon.stats.length,
+                        itemBuilder: (_, index) {
+                          var stats = pokemon.stats[index];
+                          return Column(
+                            children: [
+                              DetailOptions().attributes(
+                                  stats.stat.name, stats.baseStat.toString()),
+                            ],
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
