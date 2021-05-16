@@ -24,21 +24,6 @@ mixin _$ServiceController on _ServiceControllerBase, Store {
     });
   }
 
-  final _$_pokemonAtom = Atom(name: '_ServiceControllerBase._pokemon');
-
-  @override
-  List<Future<Pokemon>> get _pokemon {
-    _$_pokemonAtom.reportRead();
-    return super._pokemon;
-  }
-
-  @override
-  set _pokemon(List<Future<Pokemon>> value) {
-    _$_pokemonAtom.reportWrite(value, super._pokemon, () {
-      super._pokemon = value;
-    });
-  }
-
   final _$getApiPokemonAsyncAction =
       AsyncAction('_ServiceControllerBase.getApiPokemon');
 

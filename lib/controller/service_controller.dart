@@ -14,16 +14,14 @@ abstract class _ServiceControllerBase with Store {
   @observable
   ObservableList<Pokemon> listPokemons = ObservableList();
 
-  @observable
-  List<Future<Pokemon>> _pokemon = [];
-
   @action
   Future<void> getApiPokemon() async {
     final response = await _pokemonModel.getApiPokemon(8, 0).then((v) {
+      final pokemon = <Future<Pokemon>>[];
       v.results.forEach((e) {
-        _pokemon.add(_pokemonModel.getPokemon(e.url));
+        pokemon.add(_pokemonModel.getPokemon(e.url));
       });
-      return Future.wait(_pokemon);
+      return Future.wait(pokemon);
     });
     final favoritePokemon = await _daoController.getListFavorites();
     for (var favorite in favoritePokemon) {
