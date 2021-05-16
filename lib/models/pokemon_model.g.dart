@@ -6,41 +6,42 @@ part of 'pokemon_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
-  return Pokemon(
+ApiPokemon _$ApiPokemonFromJson(Map<String, dynamic> json) {
+  return ApiPokemon(
     count: json['count'] as num,
     next: json['next'] as String,
     previous: json['previous'] as String,
     results: (json['results'] as List)
         ?.map((e) => e == null
             ? null
-            : ResultListPokemons.fromJson(e as Map<String, dynamic>))
+            : ResultApiPokemon.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
 
-Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
+Map<String, dynamic> _$ApiPokemonToJson(ApiPokemon instance) =>
+    <String, dynamic>{
       'count': instance.count,
       'next': instance.next,
       'previous': instance.previous,
       'results': instance.results,
     };
 
-ResultListPokemons _$ResultListPokemonsFromJson(Map<String, dynamic> json) {
-  return ResultListPokemons(
+ResultApiPokemon _$ResultApiPokemonFromJson(Map<String, dynamic> json) {
+  return ResultApiPokemon(
     name: json['name'] as String,
     url: json['url'] as String,
   );
 }
 
-Map<String, dynamic> _$ResultListPokemonsToJson(ResultListPokemons instance) =>
+Map<String, dynamic> _$ResultApiPokemonToJson(ResultApiPokemon instance) =>
     <String, dynamic>{
       'name': instance.name,
       'url': instance.url,
     };
 
-PokemonDetails _$PokemonDetailsFromJson(Map<String, dynamic> json) {
-  return PokemonDetails(
+Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
+  return Pokemon(
     id: json['id'] as num,
     name: json['name'] as String,
     baseExperience: json['base_experience'] as num,
@@ -58,8 +59,7 @@ PokemonDetails _$PokemonDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$PokemonDetailsToJson(PokemonDetails instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'base_experience': instance.baseExperience,
@@ -111,7 +111,7 @@ Types _$TypesFromJson(Map<String, dynamic> json) {
     slot: json['slot'] as num,
     type: json['type'] == null
         ? null
-        : Ability.fromJson(json['type'] as Map<String, dynamic>),
+        : Type.fromJson(json['type'] as Map<String, dynamic>),
   );
 }
 
@@ -120,13 +120,13 @@ Map<String, dynamic> _$TypesToJson(Types instance) => <String, dynamic>{
       'type': instance.type,
     };
 
-Ability _$AbilityFromJson(Map<String, dynamic> json) {
-  return Ability(
+Type _$TypeFromJson(Map<String, dynamic> json) {
+  return Type(
     name: json['name'] as String,
   );
 }
 
-Map<String, dynamic> _$AbilityToJson(Ability instance) => <String, dynamic>{
+Map<String, dynamic> _$TypeToJson(Type instance) => <String, dynamic>{
       'name': instance.name,
     };
 
@@ -144,7 +144,7 @@ class _PokemonModel implements PokemonModel {
   String baseUrl;
 
   @override
-  Future<Pokemon> getQueryPokemon(limit, offset) async {
+  Future<ApiPokemon> getApiPokemon(limit, offset) async {
     ArgumentError.checkNotNull(limit, 'limit');
     ArgumentError.checkNotNull(offset, 'offset');
     const _extra = <String, dynamic>{};
@@ -162,12 +162,12 @@ class _PokemonModel implements PokemonModel {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Pokemon.fromJson(_result.data);
+    final value = ApiPokemon.fromJson(_result.data);
     return value;
   }
 
   @override
-  Future<PokemonDetails> getPokemonDetail(url) async {
+  Future<Pokemon> getPokemon(url) async {
     ArgumentError.checkNotNull(url, 'url');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -180,7 +180,7 @@ class _PokemonModel implements PokemonModel {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = PokemonDetails.fromJson(_result.data);
+    final value = Pokemon.fromJson(_result.data);
     return value;
   }
 }

@@ -10,51 +10,51 @@ abstract class PokemonModel {
   factory PokemonModel(Dio dio, {String baseUrl}) = _PokemonModel;
 
   @GET("https://pokeapi.co/api/v2/pokemon")
-  Future<Pokemon> getQueryPokemon(
+  Future<ApiPokemon> getApiPokemon(
       @Query("limit") num limit, @Query("offset") num offset);
 
   @GET("{url}")
-  Future<PokemonDetails> getPokemonDetail(@Path('url') String url);
+  Future<Pokemon> getPokemon(@Path('url') String url);
 }
 
 @JsonSerializable()
-class Pokemon {
+class ApiPokemon {
   num count;
   String next;
   String previous;
-  List<ResultListPokemons> results;
+  List<ResultApiPokemon> results;
 
-  Pokemon({
+  ApiPokemon({
     this.count,
     this.next,
     this.previous,
     this.results,
   });
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$PokemonFromJson(json);
+  factory ApiPokemon.fromJson(Map<String, dynamic> json) =>
+      _$ApiPokemonFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$ApiPokemonToJson(this);
 }
 
 @JsonSerializable()
-class ResultListPokemons {
+class ResultApiPokemon {
   String name;
   String url;
 
-  ResultListPokemons({
+  ResultApiPokemon({
     this.name,
     this.url,
   });
 
-  factory ResultListPokemons.fromJson(Map<String, dynamic> json) =>
-      _$ResultListPokemonsFromJson(json);
+  factory ResultApiPokemon.fromJson(Map<String, dynamic> json) =>
+      _$ResultApiPokemonFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResultListPokemonsToJson(this);
+  Map<String, dynamic> toJson() => _$ResultApiPokemonToJson(this);
 }
 
 @JsonSerializable()
-class PokemonDetails {
+class Pokemon {
   num id;
   String name;
   @JsonKey(name: "base_experience")
@@ -64,13 +64,12 @@ class PokemonDetails {
   num order;
   Sprites sprites;
   List<Types> types;
-  Ability species;
-
   // List<Abilities> abilities;
   // List<Stats> stats;
   bool favorite;
+  // Ability species;
 
-  PokemonDetails({
+  Pokemon({
     this.id,
     this.name,
     this.baseExperience,
@@ -82,10 +81,10 @@ class PokemonDetails {
     this.favorite,
   });
 
-  factory PokemonDetails.fromJson(Map<String, dynamic> json) =>
-      _$PokemonDetailsFromJson(json);
+  factory Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$PokemonFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PokemonDetailsToJson(this);
+  Map<String, dynamic> toJson() => _$PokemonToJson(this);
 }
 
 @JsonSerializable()
@@ -128,7 +127,7 @@ class DreamWorld {
 @JsonSerializable()
 class Types {
   num slot;
-  Ability type;
+  Type type;
 
   Types({this.slot, this.type});
 
@@ -138,13 +137,12 @@ class Types {
 }
 
 @JsonSerializable()
-class Ability {
+class Type {
   String name;
 
-  Ability({this.name});
+  Type({this.name});
 
-  factory Ability.fromJson(Map<String, dynamic> json) =>
-      _$AbilityFromJson(json);
+  factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AbilityToJson(this);
+  Map<String, dynamic> toJson() => _$TypeToJson(this);
 }

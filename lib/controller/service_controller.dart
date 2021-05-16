@@ -12,27 +12,27 @@ abstract class _ServiceControllerBase with Store {
   final _daoController = DaoController();
 
   @observable
-  ObservableList<PokemonDetails> pokemons = ObservableList();
+  ObservableList<Pokemon> listPokemons = ObservableList();
 
   @observable
-  List<Future<PokemonDetails>> listPokemonsDetails = [];
+  List<Future<Pokemon>> _pokemon = [];
 
   @action
-  Future<void> getQueryPokemon() async {
-    final response = await _pokemonModel.getQueryPokemon(4, 0).then((v) async {
+  Future<void> getApiPokemon() async {
+    final response = await _pokemonModel.getApiPokemon(8, 0).then((v) {
       v.results.forEach((e) {
-        listPokemonsDetails.add(_pokemonModel.getPokemonDetail(e.url));
+        _pokemon.add(_pokemonModel.getPokemon(e.url));
       });
-      return Future.wait(listPokemonsDetails);
+      return Future.wait(_pokemon);
     });
-    final favoritePokemons = await _daoController.getListFavorites();
-    for (var favorite in favoritePokemons) {
+    final favoritePokemon = await _daoController.getListFavorites();
+    for (var favorite in favoritePokemon) {
       for (int i = 0; i < response.length; i++) {
         if (favorite.namePokemon == response[i].name) {
           response[i].favorite = true;
         }
       }
     }
-    pokemons = response.asObservable();
+    listPokemons = response.asObservable();
   }
 }

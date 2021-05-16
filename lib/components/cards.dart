@@ -5,14 +5,14 @@ import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
 import 'package:pokedex/models/favorite_model.dart';
 import 'package:pokedex/models/pokemon_model.dart';
-import 'package:pokedex/screens/detail_pokemon.dart';
+import 'package:pokedex/screens/pokemon_detail.dart';
 
 class Cards {
-  pokemon(BuildContext context, PokemonDetails details) {
+  info(BuildContext context, Pokemon pokemon) {
     final _serviceController = ServiceController();
     final _daoController = DaoController();
-    final primatyType = details.types.first.type.name;
-    final secondType = details.types.last.type.name;
+    final primatyType = pokemon.types.first.type.name;
+    final secondType = pokemon.types.last.type.name;
 
     return Container(
       margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -40,9 +40,9 @@ class Cards {
           ),
           ListTile(
             leading: Hero(
-              tag: details.name,
+              tag: pokemon.name,
               child: SvgPicture.network(
-                details.sprites.other.dreamWorld.frontDefault,
+                pokemon.sprites.other.dreamWorld.frontDefault,
                 width: 60,
                 height: 60,
                 fit: BoxFit.fill,
@@ -51,7 +51,7 @@ class Cards {
             title: Row(
               children: [
                 Text(
-                  '#' + details.id.toString(),
+                  '#' + pokemon.id.toString(),
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black54,
@@ -60,7 +60,7 @@ class Cards {
                 SizedBox(width: 16),
                 Flexible(
                   child: Text(
-                    details.name,
+                    pokemon.name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 22,
@@ -96,7 +96,7 @@ class Cards {
                     ),
                   ),
                 ),
-                details.types.last.slot == 2
+                pokemon.types.last.slot == 2
                     ? Container(
                         margin: EdgeInsets.fromLTRB(8, 12, 0, 0),
                         padding: EdgeInsets.all(4),
@@ -123,14 +123,14 @@ class Cards {
                     : Container(),
               ],
             ),
-            trailing: details.favorite == null || !details.favorite
+            trailing: pokemon.favorite == null || !pokemon.favorite
                 ? IconButton(
                     icon: Icon(Icons.favorite_outline),
                     onPressed: () async {
                       await _daoController.saveFavorite(
-                        Favorite(namePokemon: details.name),
+                        Favorite(namePokemon: pokemon.name),
                       );
-                      await _serviceController.getQueryPokemon();
+                      await _serviceController.getApiPokemon();
                     },
                   )
                 : IconButton(
@@ -141,15 +141,15 @@ class Cards {
                     onPressed: () async {
                       await _daoController.getListFavorites();
                       var favorite = _daoController.listFavorite
-                          .firstWhere((e) => e.namePokemon == details.name);
+                          .firstWhere((e) => e.namePokemon == pokemon.name);
                       await _daoController.deleteFavorite(favorite);
-                      await _serviceController.getQueryPokemon();
+                      await _serviceController.getApiPokemon();
                     },
                   ),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(
                 builder: (_) {
-                  return DetailPokemon(details: details);
+                  return PokemonDetail(pokemon: pokemon);
                 },
               ));
             },

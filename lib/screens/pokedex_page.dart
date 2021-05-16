@@ -4,19 +4,19 @@ import 'package:pokedex/components/cards.dart';
 import 'package:pokedex/components/wallpaper.dart';
 import 'package:pokedex/controller/service_controller.dart';
 
-class Pokemons extends StatefulWidget {
+class PokedexPage extends StatefulWidget {
   @override
-  _PokemonsState createState() => _PokemonsState();
+  _PokedexPageState createState() => _PokedexPageState();
 }
 
-class _PokemonsState extends State<Pokemons> {
+class _PokedexPageState extends State<PokedexPage> {
   final _serviceController = ServiceController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _serviceController.getQueryPokemon();
+      _serviceController.getApiPokemon();
     });
   }
 
@@ -39,7 +39,7 @@ class _PokemonsState extends State<Pokemons> {
           Wallpaper().backgroundPage(),
           Observer(
             builder: (_) {
-              final listPokemons = _serviceController.pokemons;
+              final listPokemons = _serviceController.listPokemons;
               if (listPokemons?.isEmpty ?? true) {
                 return Center(
                   child: Image.asset('images/loading.gif', width: 200),
@@ -48,7 +48,7 @@ class _PokemonsState extends State<Pokemons> {
                 return ListView.builder(
                   itemCount: listPokemons.length,
                   itemBuilder: (_, index) {
-                    return Cards().pokemon(context, listPokemons[index]);
+                    return Cards().info(context, listPokemons[index]);
                   },
                 );
               }

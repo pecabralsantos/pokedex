@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/components/wallpaper.dart';
-import 'package:pokedex/screens/pokemon_favorite.dart';
-import 'package:pokedex/screens/pokemons.dart';
+import 'package:pokedex/screens/favorite_pokemons.dart';
+import 'package:pokedex/screens/pokedex_page.dart';
 import 'package:pokedex/screens/profile.dart';
 
 class Menu {
@@ -57,14 +57,14 @@ class Menu {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => Pokemons(),
+                  builder: (_) => PokedexPage(),
                 ));
             break;
           case 2:
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => PokemonFavorite(),
+                  builder: (_) => FavoritePokemons(),
                 ));
             break;
           case 3:

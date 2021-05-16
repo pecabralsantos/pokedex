@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pokedex/components/detail_options.dart';
 import 'package:pokedex/components/wallpaper.dart';
 import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
 import 'package:pokedex/models/favorite_model.dart';
 import 'package:pokedex/models/pokemon_model.dart';
 
-class DetailPokemon extends StatefulWidget {
-  final PokemonDetails details;
+class PokemonDetail extends StatefulWidget {
+  final Pokemon pokemon;
 
-  DetailPokemon({Key key, @required this.details}) : super(key: key);
+  PokemonDetail({Key key, @required this.pokemon}) : super(key: key);
 
   @override
-  _DetailPokemonState createState() => _DetailPokemonState(this.details);
+  _PokemonDetailState createState() => _PokemonDetailState(this.pokemon);
 }
 
-class _DetailPokemonState extends State<DetailPokemon> {
-  final PokemonDetails details;
+class _PokemonDetailState extends State<PokemonDetail> {
+  final Pokemon pokemon;
   final _daoController = DaoController();
   final _serviceController = ServiceController();
 
-  _DetailPokemonState(this.details);
+  _PokemonDetailState(this.pokemon);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Wallpaper().backgroundCard(details.types.first.type.name),
+        color: Wallpaper().backgroundCard(pokemon.types.first.type.name),
         padding: EdgeInsets.only(top: 32),
         child: Column(
           children: [
@@ -40,7 +41,7 @@ class _DetailPokemonState extends State<DetailPokemon> {
                     icon: Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  details.favorite == null || !details.favorite
+                  pokemon.favorite == null || !pokemon.favorite
                       ? Observer(
                           builder: (_) {
                             return IconButton(
@@ -50,9 +51,9 @@ class _DetailPokemonState extends State<DetailPokemon> {
                               ),
                               onPressed: () async {
                                 await _daoController.saveFavorite(
-                                  Favorite(namePokemon: details.name),
+                                  Favorite(namePokemon: pokemon.name),
                                 );
-                                await _serviceController.getQueryPokemon();
+                                await _serviceController.getApiPokemon();
                               },
                             );
                           },
@@ -68,9 +69,9 @@ class _DetailPokemonState extends State<DetailPokemon> {
                                 await _daoController.getListFavorites();
                                 var favorite = _daoController.listFavorite
                                     .firstWhere(
-                                        (e) => e.namePokemon == details.name);
+                                        (e) => e.namePokemon == pokemon.name);
                                 await _daoController.deleteFavorite(favorite);
-                                await _serviceController.getQueryPokemon();
+                                await _serviceController.getApiPokemon();
                               },
                             );
                           },
@@ -81,9 +82,9 @@ class _DetailPokemonState extends State<DetailPokemon> {
             Container(
               alignment: AlignmentDirectional.center,
               child: Hero(
-                tag: details.name,
+                tag: pokemon.name,
                 child: SvgPicture.network(
-                  details.sprites.other.dreamWorld.frontDefault,
+                  pokemon.sprites.other.dreamWorld.frontDefault,
                   width: 150,
                 ),
               ),
@@ -106,13 +107,13 @@ class _DetailPokemonState extends State<DetailPokemon> {
                         width: double.maxFinite,
                         height: 60,
                         child: Text(
-                          details.name,
+                          pokemon.name,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             color: Wallpaper()
-                                .backgroundCard(details.types.first.type.name),
+                                .backgroundCard(pokemon.types.first.type.name),
                           ),
                         ),
                       ),
@@ -124,70 +125,22 @@ class _DetailPokemonState extends State<DetailPokemon> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Wallpaper()
-                                .backgroundCard(details.types.first.type.name),
+                                .backgroundCard(pokemon.types.first.type.name),
                           ),
                         ),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 160,
-                            height: 24,
-                            child: Text(
-                              'Ordem pokemon',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Text('#' + details.order.toString()),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 160,
-                            height: 24,
-                            child: Text(
-                              'Experiência base',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Text(details.baseExperience.toString()),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 160,
-                            height: 24,
-                            child: Text(
-                              'Altura',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Text(details.height.toString()),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 160,
-                            height: 24,
-                            child: Text(
-                              'Peso',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Text(details.weight.toString()),
-                        ],
-                      ),
+                      DetailOptions().attributes(
+                          'Ordem pokemon', pokemon.order.toString()),
+                      DetailOptions().attributes('Experiência base',
+                          pokemon.baseExperience.toString()),
+                      DetailOptions()
+                          .attributes('Altura', pokemon.height.toString()),
+                      DetailOptions()
+                          .attributes('Peso', pokemon.weight.toString()),
+                      DetailOptions().attributes(
+                          'Tipo',
+                          pokemon.types.first.type.name,
+                          pokemon.types.last.type.name),
                     ],
                   ),
                 ),
