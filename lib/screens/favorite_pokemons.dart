@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/cards.dart';
 import 'package:pokedex/components/dialogs.dart';
 import 'package:pokedex/components/wallpaper.dart';
-import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
 
 class FavoritePokemons extends StatefulWidget {
@@ -12,14 +11,13 @@ class FavoritePokemons extends StatefulWidget {
 }
 
 class _FavoritePokemonsState extends State<FavoritePokemons> {
-  final _daoController = DaoController();
   final _serviceController = ServiceController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _daoController.getListFavorites();
+      _serviceController.getListFavorites();
       _serviceController.getApiPokemon();
     });
   }
@@ -43,7 +41,7 @@ class _FavoritePokemonsState extends State<FavoritePokemons> {
           Wallpaper().backgroundPage(),
           Observer(
             builder: (_) {
-              final listFavorites = _daoController.listFavorite;
+              final listFavorites = _serviceController.listFavorite;
               final listPokemons = _serviceController.listPokemons;
               if (listPokemons?.isEmpty ?? true) {
                 return Center(

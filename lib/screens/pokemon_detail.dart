@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/components/detail_options.dart';
 import 'package:pokedex/components/wallpaper.dart';
-import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
 import 'package:pokedex/models/repository/favorite_repository.dart';
 import 'package:pokedex/models/repository/pokemon_repository.dart';
@@ -23,7 +22,6 @@ class PokemonDetail extends StatefulWidget {
 class _PokemonDetailState extends State<PokemonDetail> {
   final Pokemon pokemon;
 
-  final _daoController = DaoController();
   final _serviceController = ServiceController();
 
   _PokemonDetailState(this.pokemon);
@@ -57,7 +55,7 @@ class _PokemonDetailState extends State<PokemonDetail> {
                                 color: Colors.white,
                               ),
                               onPressed: () async {
-                                await _daoController.saveFavorite(
+                                await _serviceController.saveFavorite(
                                   Favorite(namePokemon: pokemon.name),
                                 );
                                 await _serviceController.getApiPokemon();
@@ -73,11 +71,12 @@ class _PokemonDetailState extends State<PokemonDetail> {
                                 color: Colors.white,
                               ),
                               onPressed: () async {
-                                await _daoController.getListFavorites();
-                                var favorite = _daoController.listFavorite
+                                await _serviceController.getListFavorites();
+                                var favorite = _serviceController.listFavorite
                                     .firstWhere(
                                         (e) => e.namePokemon == pokemon.name);
-                                await _daoController.deleteFavorite(favorite);
+                                await _serviceController
+                                    .deleteFavorite(favorite);
                                 await _serviceController.getApiPokemon();
                               },
                             );
