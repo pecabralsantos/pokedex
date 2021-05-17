@@ -1,60 +1,45 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:retrofit/retrofit.dart';
 
-part 'pokemon_model.g.dart';
-
-@RestApi(baseUrl: "")
-abstract class PokemonModel {
-  factory PokemonModel(Dio dio, {String baseUrl}) = _PokemonModel;
-
-  @GET("https://pokeapi.co/api/v2/pokemon")
-  Future<Pokemon> getQueryPokemon(
-      @Query("limit") num limit, @Query("offset") num offset);
-
-  @GET("{url}")
-  Future<PokemonDetails> getPokemonDetail(@Path('url') String url);
-}
+part 'pokemon_repository.g.dart';
 
 @JsonSerializable()
-class Pokemon {
+class ApiPokemon {
   num count;
   String next;
   String previous;
-  List<ResultListPokemons> results;
+  List<ResultApiPokemon> results;
 
-  Pokemon({
+  ApiPokemon({
     this.count,
     this.next,
     this.previous,
     this.results,
   });
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$PokemonFromJson(json);
+  factory ApiPokemon.fromJson(Map<String, dynamic> json) =>
+      _$ApiPokemonFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$ApiPokemonToJson(this);
 }
 
 @JsonSerializable()
-class ResultListPokemons {
+class ResultApiPokemon {
   String name;
   String url;
 
-  ResultListPokemons({
+  ResultApiPokemon({
     this.name,
     this.url,
   });
 
-  factory ResultListPokemons.fromJson(Map<String, dynamic> json) =>
-      _$ResultListPokemonsFromJson(json);
+  factory ResultApiPokemon.fromJson(Map<String, dynamic> json) =>
+      _$ResultApiPokemonFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResultListPokemonsToJson(this);
+  Map<String, dynamic> toJson() => _$ResultApiPokemonToJson(this);
 }
 
 @JsonSerializable()
-class PokemonDetails {
+class Pokemon {
   num id;
   String name;
   @JsonKey(name: "base_experience")
@@ -64,13 +49,11 @@ class PokemonDetails {
   num order;
   Sprites sprites;
   List<Types> types;
-  Ability species;
-
-  // List<Abilities> abilities;
-  // List<Stats> stats;
+  List<Abilities> abilities;
+  List<Stats> stats;
   bool favorite;
 
-  PokemonDetails({
+  Pokemon({
     this.id,
     this.name,
     this.baseExperience,
@@ -79,13 +62,15 @@ class PokemonDetails {
     this.order,
     this.sprites,
     this.types,
+    this.abilities,
+    this.stats,
     this.favorite,
   });
 
-  factory PokemonDetails.fromJson(Map<String, dynamic> json) =>
-      _$PokemonDetailsFromJson(json);
+  factory Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$PokemonFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PokemonDetailsToJson(this);
+  Map<String, dynamic> toJson() => _$PokemonToJson(this);
 }
 
 @JsonSerializable()
@@ -128,7 +113,7 @@ class DreamWorld {
 @JsonSerializable()
 class Types {
   num slot;
-  Ability type;
+  Type type;
 
   Types({this.slot, this.type});
 
@@ -138,13 +123,64 @@ class Types {
 }
 
 @JsonSerializable()
-class Ability {
+class Type {
   String name;
 
-  Ability({this.name});
+  Type({this.name});
+
+  factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TypeToJson(this);
+}
+
+@JsonSerializable()
+class Abilities {
+  num slot;
+  @JsonKey(name: "is_hidden")
+  bool isHidden;
+  Ability ability;
+
+  Abilities({this.slot, this.isHidden, this.ability});
+
+  factory Abilities.fromJson(Map<String, dynamic> json) =>
+      _$AbilitiesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AbilitiesToJson(this);
+}
+
+@JsonSerializable()
+class Ability {
+  String name;
+  String url;
+
+  Ability({this.name, this.url});
 
   factory Ability.fromJson(Map<String, dynamic> json) =>
       _$AbilityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AbilityToJson(this);
+}
+
+@JsonSerializable()
+class Stats {
+  @JsonKey(name: "base_stat")
+  num baseStat;
+  Stat stat;
+
+  Stats({this.baseStat, this.stat});
+
+  factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatsToJson(this);
+}
+
+@JsonSerializable()
+class Stat {
+  String name;
+
+  Stat({this.name});
+
+  factory Stat.fromJson(Map<String, dynamic> json) => _$StatFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatToJson(this);
 }

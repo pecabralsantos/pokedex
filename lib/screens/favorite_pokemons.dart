@@ -3,24 +3,22 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/components/cards.dart';
 import 'package:pokedex/components/dialogs.dart';
 import 'package:pokedex/components/wallpaper.dart';
-import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
 
-class PokemonFavorite extends StatefulWidget {
+class FavoritePokemons extends StatefulWidget {
   @override
-  _PokemonFavoriteState createState() => _PokemonFavoriteState();
+  _FavoritePokemonsState createState() => _FavoritePokemonsState();
 }
 
-class _PokemonFavoriteState extends State<PokemonFavorite> {
-  final _daoController = DaoController();
+class _FavoritePokemonsState extends State<FavoritePokemons> {
   final _serviceController = ServiceController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _daoController.getListFavorites();
-      _serviceController.getQueryPokemon();
+      _serviceController.getListFavorites();
+      _serviceController.getApiPokemon();
     });
   }
 
@@ -43,8 +41,8 @@ class _PokemonFavoriteState extends State<PokemonFavorite> {
           Wallpaper().backgroundPage(),
           Observer(
             builder: (_) {
-              final listFavorites = _daoController.listFavorite;
-              final listPokemons = _serviceController.pokemons;
+              final listFavorites = _serviceController.listFavorite;
+              final listPokemons = _serviceController.listPokemons;
               if (listPokemons?.isEmpty ?? true) {
                 return Center(
                   child: Image.asset('images/loading.gif', width: 200),
@@ -78,7 +76,7 @@ class _PokemonFavoriteState extends State<PokemonFavorite> {
                     var pokemons = listPokemons.firstWhere(
                         (e) => e.name == favorites.namePokemon,
                         orElse: () => Dialogs().serviceError(context));
-                    return Cards().pokemon(context, pokemons);
+                    return Cards().info(context, pokemons);
                   },
                 );
               }

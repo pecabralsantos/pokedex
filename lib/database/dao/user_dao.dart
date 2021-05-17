@@ -1,5 +1,5 @@
 import 'package:pokedex/database/app_database.dart';
-import 'package:pokedex/models/user_model.dart';
+import 'package:pokedex/models/repository/user_repository.dart';
 import 'package:sembast/sembast.dart';
 
 class UserDAO {

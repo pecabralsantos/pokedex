@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/components/wallpaper.dart';
-import 'package:pokedex/controller/dao_controller.dart';
 import 'package:pokedex/controller/service_controller.dart';
-import 'package:pokedex/models/favorite_model.dart';
-import 'package:pokedex/models/pokemon_model.dart';
-import 'package:pokedex/screens/detail_pokemon.dart';
+import 'package:pokedex/models/repository/favorite_repository.dart';
+import 'package:pokedex/models/repository/pokemon_repository.dart';
+import 'package:pokedex/screens/pokemon_detail.dart';
 
 class Cards {
-  pokemon(BuildContext context, PokemonDetails details) {
+  info(BuildContext context, Pokemon pokemon) {
     final _serviceController = ServiceController();
-    final _daoController = DaoController();
-    final primatyType = details.types.first.type.name;
-    final secondType = details.types.last.type.name;
+    final fisrtType = pokemon.types.first.type.name;
+    final lastType = pokemon.types.last.type.name;
 
     return Container(
       margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Wallpaper().backgroundCard(primatyType),
+        color: Wallpaper().backgroundCard(fisrtType),
         borderRadius: BorderRadius.all(Radius.circular(4)),
         boxShadow: [
           BoxShadow(
@@ -40,9 +38,9 @@ class Cards {
           ),
           ListTile(
             leading: Hero(
-              tag: details.name,
+              tag: pokemon.name,
               child: SvgPicture.network(
-                details.sprites.other.dreamWorld.frontDefault,
+                pokemon.sprites.other.dreamWorld.frontDefault,
                 width: 60,
                 height: 60,
                 fit: BoxFit.fill,
@@ -51,7 +49,7 @@ class Cards {
             title: Row(
               children: [
                 Text(
-                  '#' + details.id.toString(),
+                  '#' + pokemon.id.toString(),
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black54,
@@ -60,7 +58,7 @@ class Cards {
                 SizedBox(width: 16),
                 Flexible(
                   child: Text(
-                    details.name,
+                    pokemon.name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 22,
@@ -73,64 +71,19 @@ class Cards {
             ),
             subtitle: Row(
               children: [
-                Container(
-                  margin: EdgeInsets.only(top: 12),
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Wallpaper().backgroundCard(primatyType),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black45.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    primatyType,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade50,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                details.types.last.slot == 2
-                    ? Container(
-                        margin: EdgeInsets.fromLTRB(8, 12, 0, 0),
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Wallpaper().backgroundCard(secondType),
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black45.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          secondType,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade50,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
+                type(fisrtType, EdgeInsets.only(top: 12)),
+                pokemon.types.last.slot == 2
+                    ? type(lastType, EdgeInsets.fromLTRB(8, 12, 0, 0))
                     : Container(),
               ],
             ),
-            trailing: details.favorite == null || !details.favorite
+            trailing: pokemon.favorite == null || !pokemon.favorite
                 ? IconButton(
                     icon: Icon(Icons.favorite_outline),
                     onPressed: () async {
-                      await _daoController.saveFavorite(
-                        Favorite(namePokemon: details.name),
+                      await _serviceController.saveFavorite(
+                        Favorite(namePokemon: pokemon.name),
                       );
-                      await _serviceController.getQueryPokemon();
                     },
                   )
                 : IconButton(
@@ -139,22 +92,47 @@ class Cards {
                       color: Colors.red,
                     ),
                     onPressed: () async {
-                      await _daoController.getListFavorites();
-                      var favorite = _daoController.listFavorite
-                          .firstWhere((e) => e.namePokemon == details.name);
-                      await _daoController.deleteFavorite(favorite);
-                      await _serviceController.getQueryPokemon();
+                      await _serviceController.getListFavorites();
+                      var favorite = _serviceController.listFavorite
+                          .firstWhere((e) => e.namePokemon == pokemon.name);
+                      await _serviceController.deleteFavorite(favorite);
                     },
                   ),
-            onTap: () {
+            onTap: () async {
               Navigator.push(context, MaterialPageRoute(
                 builder: (_) {
-                  return DetailPokemon(details: details);
+                  return PokemonDetail(pokemon: pokemon);
                 },
               ));
             },
           ),
         ],
+      ),
+    );
+  }
+
+  type(String type, [EdgeInsets edgeInsets]) {
+    return Container(
+      margin: edgeInsets,
+      padding: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Wallpaper().backgroundCard(type),
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black45.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 2,
+          ),
+        ],
+      ),
+      child: Text(
+        type,
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.grey.shade50,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
