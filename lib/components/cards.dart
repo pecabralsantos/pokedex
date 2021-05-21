@@ -53,6 +53,7 @@ class Cards {
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black54,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(width: 16),

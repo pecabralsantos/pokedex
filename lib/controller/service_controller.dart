@@ -38,7 +38,7 @@ abstract class _ServiceControllerBase with Store {
 
   @action
   Future<void> getApiPokemon() async {
-    final response = await _apiModel.getApiPokemon(8, 0).then((v) {
+    final response = await _apiModel.getApiPokemon(150, 0).then((v) {
       final pokemon = <Future<Pokemon>>[];
       v.results.forEach((e) {
         pokemon.add(_apiModel.getPokemon(e.url));
